@@ -6,7 +6,7 @@
 	faction = "Station"
 	tutorial = "Having forsaken your own wealth and any titles you may have possessed to serve the Pantheon either due to past transgressions or dutiful zealotry, you serve as a Templar of the Most Holy, charged with the protection of the Church of Lyndvhar. You are one of the first lines of defense of what may lurk in the dark. Serve the Church faithfully, and perhaps you will live to see the dae when the realm is pure once more."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_RESPECTED_UP
+	allowed_races = RACES_ALL_KINDS
 	allowed_patrons = ALL_DIVINE_PATRONS
 	outfit = /datum/outfit/job/roguetown/templar
 	min_pq = 3 //Deus vult, but only according to the proper escalation rules

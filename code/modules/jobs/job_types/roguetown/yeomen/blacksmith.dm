@@ -133,14 +133,7 @@
 	total_positions = 2
 	spawn_positions = 2
 
-	allowed_races = list(
-		"Humen",
-		"Elf",
-		"Half-Elf",
-		"Dwarf",
-		"Tiefling",
-		"Dark Elf"
-	)
+	allowed_races = RACES_ALL_KINDS
 
 	tutorial = "You've studied for many decades under quite a number of master smiths. Whether it's cookware or tools of war, you're unmatched at the art of bending metal to your will."
 

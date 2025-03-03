@@ -7,7 +7,7 @@
 	spawn_positions = 1
 	selection_color = JCOLOR_CHURCH
 	f_title = "Priestess"
-	allowed_races = RACES_RESPECTED_UP
+	allowed_races = RACES_ALL_KINDS
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "In this time of strife and destruction, only the power of the PANTHEON is what truly matters against those of immorality. You control and oversee the entire Church of Lyndvhar, and are respected as such. Keep the spirits of those under you uplifted and the city faithful, for danger may always come from within."

@@ -6,15 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = list(
-		"Humen",
-		"Elf",
-		"Half-Elf",
-		"Dwarf",
-		"Tiefling",
-		"Dark Elf",
-		"Half-Kin"
-	)
+	allowed_races = RACES_ALL_KINDS
 
 	tutorial = "Servitude unto death; that is your motto. You have worked tirelessly in the court of Lyndvhar as a servant, and this had not gone unrecognized. You have become the de-facto head of the serving staff, with power over the lesser courtiers. For if it were not for you and your underlings, the nobles would have starved to death long ago."
 	outfit = /datum/outfit/job/roguetown/seneschal

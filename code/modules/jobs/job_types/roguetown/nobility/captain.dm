@@ -5,16 +5,9 @@
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	allowed_races = list(
-		"Humen",
-		"Elf",
-		"Half-Elf",
-		"Dwarf",
-		"Dark Elf",
-		"Aasimar",
-		"Half-Kin"
-	)
+	allowed_races = RACES_ALL_KINDS
 	allowed_sexes = list(MALE, FEMALE)
+	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "Your lineage is noble, and generations of strong, loyal knights have come before you. You served your time \
 	gracefully as knight of the Viscount, and now you've grown into a role which many men can only dream of becoming. \
 	Lead your men to victory--and keep them in line--and you will see this realm prosper under a thousand suns."

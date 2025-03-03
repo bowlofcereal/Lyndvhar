@@ -6,12 +6,8 @@
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	allowed_races = list(
-		"Humen",
-		"Elf",
-		"Half-Elf",
-		"Dwarf"
-	)	//Maybe a system to force-pick lineage based on king and queen should be implemented.
+	f_title = "Heiress"
+	allowed_races = RACES_ALL_KINDS //Maybe a system to force-pick lineage based on king and queen should be implemented.
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_HEIR = 20)

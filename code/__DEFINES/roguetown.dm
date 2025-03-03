@@ -23,42 +23,38 @@
 )
 
 
-#define RACES_ESTEEMED \
+#define RACES_RESPECTED \
 	/datum/species/human/northern,\
 	/datum/species/elf/wood,\
-	/datum/species/dwarf/mountain
-
-#define RACES_RESPECTED \
+	/datum/species/human/halfelf,\
+	/datum/species/dwarf/mountain,\
 	/datum/species/aasimar,\
-	/datum/species/human/halfelf
-
-#define RACES_TOLERATED \
-	/datum/species/tieberian,\
-	/datum/species/elf/dark,\
-	/datum/species/halforc,\
-	/datum/species/demihuman,\
-	/datum/species/lizardfolk
-
-#define RACES_SHUNNED \
-	/datum/species/akula,\
 	/datum/species/lupian,\
-	/datum/species/tabaxi,\
 	/datum/species/vulpkanin,\
 	/datum/species/dracon
 
-#define RACES_DESPISED \
+#define RACES_TOLERATED \
+	/datum/species/elf/dark,\
+	/datum/species/tieberian,\
+	/datum/species/lizardfolk,\
+	/datum/species/tabaxi,\
+	/datum/species/akula,\
 	/datum/species/anthromorph,\
+	/datum/species/demihuman
+
+#define RACES_SHUNNED \
+	/datum/species/halforc,\
 	/datum/species/anthromorphsmall,\
-	/datum/species/goblinp,\
 	/datum/species/kobold
 
-#define RACES_ALL_KINDS list(RACES_DESPISED, RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_ESTEEMED)
+#define RACES_DESPISED \
+	/datum/species/goblinp\
 
-#define RACES_SHUNNED_UP list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED, RACES_ESTEEMED)
+#define RACES_ALL_KINDS list(RACES_DESPISED, RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED)
 
-#define RACES_TOLERATED_UP list(RACES_TOLERATED, RACES_RESPECTED, RACES_ESTEEMED)
+#define RACES_SHUNNED_UP list(RACES_SHUNNED, RACES_TOLERATED, RACES_RESPECTED)
 
-#define RACES_RESPECTED_UP list(RACES_RESPECTED, RACES_ESTEEMED)
+#define RACES_TOLERATED_UP list(RACES_TOLERATED, RACES_RESPECTED)
 
 #define NOBLE_RACES_TYPES list(\
 	/datum/species/human/northern,\

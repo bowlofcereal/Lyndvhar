@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 2 // TWO GOONS!!
 	spawn_positions = 2
-	allowed_races = RACES_RESPECTED_UP
+	allowed_races = RACES_ALL_KINDS
 	allowed_patrons = list(/datum/patron/old_god) //You MUST have a Psydonite character to start. Just so people don't get japed into Oops Suddenly Psydon!
 	tutorial = "A fervent believer in the cause of the Orthodoxy. Recruited by the Valorian Inquisition to further the Psydonian goal in the locale."
 	selection_color = JCOLOR_INQUISITION

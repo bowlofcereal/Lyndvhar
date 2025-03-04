@@ -271,7 +271,7 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/exe/astrata(H), TRUE)
 			H.mind.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Moonlight Khopesh")
-			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/nockhopesh(H), TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/elf/nockhopesh(H), TRUE)
 			H.mind.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Swift End")
 			H.put_in_hands(new /obj/item/rogueweapon/flail/necraflail(H), TRUE)

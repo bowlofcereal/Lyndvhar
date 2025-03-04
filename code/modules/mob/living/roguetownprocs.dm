@@ -8,8 +8,6 @@
 	if(target.grabbedby == user)
 		if(user.grab_state >= GRAB_AGGRESSIVE)
 			return zone
-	if(!(target.mobility_flags & MOBILITY_STAND))
-		return zone
 	if( (target.dir == turn(get_dir(target,user), 180)))
 		return zone
 
@@ -18,29 +16,38 @@
 	if(check_zone(zone) == zone)
 		chance2hit += 10
 
+	if(!(target.mobility_flags & MOBILITY_STAND))
+		chance2hit += 10 //Prone targets are easier to get called shots on, but not guaranteed.
+
 	if(user.mind)
-		chance2hit += (user.mind.get_skill_level(associated_skill) * 8)
+		chance2hit += (user.mind.get_skill_level(associated_skill) * 12)
 
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
 			chance2hit += 10
 		if(used_intent.blade_class == BCLASS_CUT)
 			chance2hit += 6
+		if(used_intent.blade_class == BCLASS_PUNCH)
+			chance2hit += 15 //Effectively same bonus as stab, plus what it should be getting for short lenght.
 
 	if(I)
 		if(I.wlength == WLENGTH_SHORT)
-			chance2hit += 10
+			chance2hit += 5
+		if(I.wbalance < 0)
+			chance2hit += (10 * I.wbalance)
 
 	if(user.STAPER > 10)
-		chance2hit += ((user.STAPER-10)*3)
+		chance2hit += ((user.STAPER-10)*8)
 
 	if(user.STAPER < 10)
-		chance2hit -= ((10-user.STAPER)*3)
+		chance2hit -= ((10-user.STAPER)*8)
 
 	if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
-		chance2hit += 20
+		chance2hit += 15
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
-		chance2hit -= 20
+		chance2hit -= 20 //Should be manageable by stacking perception/skill now.
+	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+		chance2hit -= 8
 
 	chance2hit = CLAMP(chance2hit, 5, 99)
 
@@ -180,7 +187,7 @@
 					attacker_skill = U.mind.get_skill_level(intenty.masteritem.associated_skill)
 					prob2defend -= (attacker_skill * 20)
 					if((intenty.masteritem.wbalance > 0) && (user.STASPD > src.STASPD)) //enemy weapon is quick, so get a bonus based on spddiff
-						prob2defend -= ( intenty.masteritem.wbalance * ((user.STASPD - src.STASPD) * 10) )
+						prob2defend -= ( intenty.masteritem.wbalance * ((user.STASPD - src.STASPD) * 7) ) //Still good if stacking speed, just less oppressive.
 				else
 					attacker_skill = U.mind.get_skill_level(/datum/skill/combat/unarmed)
 					prob2defend -= (attacker_skill * 20)

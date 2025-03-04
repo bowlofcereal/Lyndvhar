@@ -122,9 +122,9 @@
 				user.do_attack_animation(M, visual_effect_icon = user.used_intent.animname)
 			return
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		user.rogfat_add(10)
+		user.rogfat_add(7)
 	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
-		user.rogfat_add(10)
+		user.rogfat_add(7)
 	if(M.checkdefense(user.used_intent, user))
 		if(M.d_intent == INTENT_PARRY)
 			if(!M.get_active_held_item() && !M.get_inactive_held_item()) //we parried with a bracer, redirect damage
@@ -217,9 +217,9 @@
 		if(C.domhand)
 			used_str = C.get_str_arms(C.used_hand)
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
-		used_str++
+		used_str += 2
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
-		used_str--
+		used_str -= 2
 	used_str = CLAMP(used_str, 1, 20)
 	if(used_str >= 11)
 		newforce = newforce + (newforce * ((used_str - 10) * 0.1))

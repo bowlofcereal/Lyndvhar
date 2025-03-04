@@ -228,7 +228,16 @@
 	name ="plaguebringer sickle"
 	desc = "A wicked edge brings feculent delights."
 	icon_state = "pestrasickle"
+	possible_item_intents = list(/datum/intent/dagger/cut/sickle, /datum/intent/dagger/thrust) //No pick intent, very fast cuts.
 	max_integrity = 200
+	wdefense = 5
+	wbalance = 1.5
+
+/datum/intent/dagger/cut/sickle
+	clickcd = 6
+	penfactor = 15
+	releasedrain = -1 
+	misscost = -1
 
 /obj/item/rogueweapon/huntingknife/idagger/dtace
 	name = "'De Tace'"
@@ -401,7 +410,7 @@
 	max_integrity = 50
 	wdefense = 1
 	icon_state = "throw_knifei"
-	embedding = list("embedded_pain_multiplier" = 1, "embed_chance" = 25, "embedded_fall_chance" = 10)
+	embedding = list("embedded_pain_multiplier" = 1, "embed_chance" = 15, "embedded_fall_chance" = 10)
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/chop)
 	smeltresult = null
 	sellprice = 1
@@ -416,7 +425,7 @@
 	max_integrity = 100
 	wdefense = 1
 	icon_state = "throw_knifes"
-	embedding = list("embedded_pain_multiplier" = 1, "embed_chance" = 30, "embedded_fall_chance" = 10)
+	embedding = list("embedded_pain_multiplier" = 1, "embed_chance" = 20, "embedded_fall_chance" = 10)
 	smeltresult = null
 	sellprice = 2
 
@@ -430,7 +439,7 @@
 	max_integrity = 150
 	wdefense = 3
 	icon_state = "throw_knifep"
-	embedding = list("embedded_pain_multiplier" = 1, "embed_chance" = 30, "embedded_fall_chance" = 10)
+	embedding = list("embedded_pain_multiplier" = 1, "embed_chance" = 20, "embedded_fall_chance" = 10)
 	is_silver = TRUE
 	sellprice = 6
 	smeltresult = null

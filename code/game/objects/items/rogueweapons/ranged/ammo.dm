@@ -79,9 +79,9 @@
 
 /obj/projectile/bullet/reusable/arrow
 	name = "arrow"
-	damage = 50
+	damage = 40
 	damage_type = BRUTE
-	armor_penetration = 20
+	armor_penetration = 15
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
@@ -143,7 +143,7 @@
 
 /obj/projectile/bullet/reusable/arrow/poison
 	name = "poison arrow"
-	damage = 50
+	damage = 35
 	damage_type = BRUTE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrow_proj"
@@ -221,7 +221,7 @@
 /obj/projectile/bullet/arrow/pyro
 	name = "pyroclatic arrow"
 	desc = "An arrow with its tip drenched in a flammable tincture."
-	damage = 15
+	damage = 30
 	damage_type = BRUTE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "arrowpyro_proj"
@@ -231,7 +231,7 @@
 	embedchance = 0
 	woundclass = BCLASS_BLUNT
 	flag = "piercing"
-	speed = 0.4
+	speed = 0.55
 
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 
@@ -268,7 +268,7 @@
 
 /obj/projectile/bullet/reusable/bullet
 	name = "lead ball"
-	damage = 50
+	damage = 100
 	damage_type = BRUTE
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	icon_state = "musketball_proj"
@@ -278,7 +278,7 @@
 	embedchance = 100
 	woundclass = BCLASS_STAB
 	flag = "piercing"
-	armor_penetration = 200
+	armor_penetration = 50
 	speed = 0.1
 
 /obj/item/ammo_casing/caseless/rogue/bullet

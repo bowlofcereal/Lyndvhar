@@ -7,7 +7,7 @@
 	animname = "stab"
 	icon_state = "instab"
 	reach = 2
-	chargetime = 0.8
+	chargetime = 3
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	penfactor = 45
@@ -15,7 +15,7 @@
 
 /datum/intent/spear/thrust/strong
 	penfactor = 65
-	chargetime = 1
+	chargetime = 6
 
 /datum/intent/spear/bash
 	name = "bash"
@@ -46,7 +46,7 @@
 	penfactor = 30
 	reach = 2
 	swingdelay = 5
-	chargetime = 1
+	chargetime = 4
 	damfactor = 1.1
 	item_d_type = "slash"
 
@@ -57,7 +57,7 @@
 	penfactor = 55
 	recovery = 10
 	damfactor = 1.3
-	chargetime = 1.5
+	chargetime = 6
 	swingdelay = 12
 
 /datum/intent/spear/cut/strong
@@ -66,9 +66,6 @@
 /datum/intent/spear/cut/glaive
 	damfactor = 1.0
 	penfactor = 20
-
-/datum/intent/spear/cut/bardiche/scythe
-	reach = 2
 
 /datum/intent/spear/cast
 	name = "cast"
@@ -302,217 +299,6 @@
 	max_integrity = 50
 	throwforce = 20
 
-/obj/item/rogueweapon/fishspear
-	force = 20
-	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH, SPEAR_CAST) //bash is for nonlethal takedowns, only targets limbs
-	name = "fishing spear"
-	desc = "This two-pronged and barbed spear was made to catch those pesky fish."
-	icon_state = "fishspear"
-	icon = 'icons/roguetown/weapons/64.dmi'
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = TRUE
-	gripsprite = TRUE
-	wlength = WLENGTH_GREAT
-	w_class = WEIGHT_CLASS_BULKY
-	minstr = 8
-	max_blade_int = 200
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	smeltresult = /obj/item/ingot/steel
-	associated_skill = /datum/skill/combat/polearms
-	blade_dulling = DULLING_BASHCHOP
-	walking_stick = TRUE
-	wdefense = 6
-	thrown_bclass = BCLASS_STAB
-	throwforce = 35
-	resistance_flags = FLAMMABLE
-
-/obj/item/rogueweapon/fishspear/depthseek //DO NOT ADD RECIPE. MEANT TO BE AN ABYSSORITE RELIC. IDEA COURTESY OF LORDINQPLAS
-	force = 45
-	name = "blessed depthseeker"
-	desc = "A beautifully crafted weapon, with handle carved of some beast's bone, inlaid with smooth seaglass at pommel and head, with two prongs smithed of fine dwarven steel. The seaglass carving at the head is a masterwork in and of itself, you can feel an abyssal energy radiating off it."
-	icon_state = "depthseek"
-	smeltresult = /obj/item/ingot/blacksteel
-	max_blade_int = 2600
-	wdefense = 8
-	throwforce = 50
-
-/obj/item/rogueweapon/fishspear/attack_self(mob/user)
-	if(user.used_intent.type == SPEAR_CAST)
-		if(user.doing)
-			user.doing = 0
-
-/obj/item/rogueweapon/fishspear/afterattack(obj/target, mob/user, proximity)
-	freshfishloot = list(
-		/obj/item/reagent_containers/food/snacks/fish/carp = 200,
-		/obj/item/reagent_containers/food/snacks/fish/sunny = 300,
-		/obj/item/reagent_containers/food/snacks/fish/salmon = 200,
-		/obj/item/reagent_containers/food/snacks/fish/eel = 150,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 20,
-	)
-	seafishloot = list(
-		/obj/item/reagent_containers/food/snacks/fish/cod = 200,
-		/obj/item/reagent_containers/food/snacks/fish/plaice = 200,
-		/obj/item/reagent_containers/food/snacks/fish/sole = 305,
-		/obj/item/reagent_containers/food/snacks/fish/angler = 150,
-		/obj/item/reagent_containers/food/snacks/fish/lobster = 300,
-		/obj/item/reagent_containers/food/snacks/fish/bass = 200,
-		/obj/item/reagent_containers/food/snacks/fish/clam = 100,
-		/obj/item/reagent_containers/food/snacks/fish/clownfish = 50,
-		/mob/living/carbon/human/species/goblin/npc/sea = 25,
-		/mob/living/simple_animal/hostile/rogue/deepone = 30,
-		/mob/living/simple_animal/hostile/rogue/deepone/spit = 30,
-	)
-	mudfishloot = list(
-		/obj/item/reagent_containers/food/snacks/fish/mudskipper = 200,
-		/obj/item/natural/worms/leech = 50,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 25,
-	)
-	var/sl = user.mind.get_skill_level(/datum/skill/labor/fishing) // User's skill level
-	var/ft = 160 //Time to get a catch, in ticks
-	var/fpp =  130 - (40 + (sl * 15)) // Fishing power penalty based on fishing skill level
-	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
-	var/salwt = list(/turf/open/water/ocean, /turf/open/water/ocean/deep)
-	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
-	if(istype(target, /turf/open/water))
-		if(user.used_intent.type == SPEAR_CAST && !user.doing)
-			if(target in range(user,3))
-				user.visible_message("<span class='warning'>[user] searches for a fish!</span>", \
-									"<span class='notice'>I begin looking for a fish to spear.</span>")
-				playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
-				ft -= (sl * 20) //every skill lvl is -2 seconds
-				ft = max(20,ft) //min of 2 seconds
-				if(do_after(user,ft, target = target))
-					var/fishchance = 100 // Total fishing chance, deductions applied below
-					if(user.mind)
-						if(!sl) // If we have zero fishing skill...
-							fishchance -= 50 // 50% chance to fish base
-						else
-							fishchance -= fpp // Deduct a penalty the lower our fishing level is (-0 at legendary)
-					var/mob/living/fisherman = user
-					if(prob(fishchance)) // Finally, roll the dice to see if we fish.
-						if(target.type in frwt)
-							var/A = pickweight(freshfishloot)
-							var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
-							to_chat(user, "<span class='notice'>You see something!</span>")
-							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
-							if(!do_after(user,ow, target = target))
-								if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
-									var/mob/M = A
-									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
-										new M(target)
-									else
-										new M(user.loc)
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
-								else
-									new A(user.loc)
-									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
-							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")								
-						if(target.type in salwt)
-							var/A = pickweight(seafishloot)
-							var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
-							to_chat(user, "<span class='notice'>You see something!</span>")
-							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
-							if(!do_after(user,ow, target = target))
-								if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
-									var/mob/M = A
-									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
-										new M(target)
-									else
-										new M(user.loc)
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
-								else
-									new A(user.loc)
-									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
-							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")							
-						if(target.type in mud)
-							var/A = pickweight(mudfishloot)
-							var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
-							to_chat(user, "<span class='notice'>You see something!</span>")
-							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
-							if(!do_after(user,ow, target = target))
-								if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
-									var/mob/M = A
-									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
-										new M(target)
-									else
-										new M(user.loc)
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
-								else
-									new A(user.loc)
-									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
-							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
-					else
-						to_chat(user, "<span class='warning'>Not a single fish...</span>")
-						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2) // Pity XP.
-				else
-					to_chat(user, "<span class='warning'>I must stand still to fish.</span>")
-			update_icon()
-
-/obj/item/rogueweapon/fishspear/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list(
-					"shrink" = 0.6,
-					"sx" = -6,
-					"sy" = 7,
-					"nx" = 6,
-					"ny" = 8,
-					"wx" = 0,
-					"wy" = 6,
-					"ex" = -1,
-					"ey" = 8,
-					"northabove" = 0,
-					"southabove" = 1,
-					"eastabove" = 1,
-					"westabove" = 0,
-					"nturn" = -50,
-					"sturn" = 40,
-					"wturn" = 50,
-					"eturn" = -50,
-					"nflip" = 0,
-					"sflip" = 8,
-					"wflip" = 8,
-					"eflip" = 0,
-					)
-			if("wielded")
-				return list(
-					"shrink" = 0.6,
-					"sx" = 3,
-					"sy" = 1,
-					"nx" = -3,
-					"ny" = 1,
-					"wx" = -9,
-					"wy" = 1,
-					"ex" = 9,
-					"ey" = 1,
-					"northabove" = 0,
-					"southabove" = 1,
-					"eastabove" = 1,
-					"westabove" = 0,
-					"nturn" = -30,
-					"sturn" = 30,
-					"wturn" = -30,
-					"eturn" = 30,
-					"nflip" = 8,
-					"sflip" = 0,
-					"wflip" = 8,
-					"eflip" = 0,
-					)
-
 /obj/item/rogueweapon/halberd
 	force = 15
 	force_wielded = 30
@@ -572,10 +358,24 @@
 	wbalance = -1
 
 /obj/item/rogueweapon/halberd/bardiche/scythe
-	name = "summer scythe"
+	name = "Summer Scythe"
 	desc = "Summer's verdancy runs through the head of this scythe. All the more to sow."
 	icon_state = "dendorscythe"
-	gripped_intents = list(/datum/intent/spear/thrust/eaglebeak, /datum/intent/spear/cut/bardiche/scythe, /datum/intent/axe/chop/scythe, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/cut/strong, /datum/intent/spear/chop, /datum/intent/spear/chop/reap, SPEAR_BASH)
+
+/datum/intent/spear/chop/reap
+	name = "reap"
+	attack_verb = list("reaps", "fells")
+	warnie = "mobwarning"
+	icon_state = "inpunish"
+	no_early_release = TRUE
+	damfactor = 1.4
+	penfactor = 60
+	chargetime = 16
+	releasedrain = 10
+	misscost = 8
+	charging_slowdown = 1
+	clickcd = 16
 
 /obj/item/rogueweapon/halberd/psyhalberd
 	name = "psydonian halberd"
@@ -845,3 +645,214 @@
 	force = 18
 	force_wielded = 28
 	max_integrity = 250
+
+/obj/item/rogueweapon/fishspear
+	force = 20
+	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH, SPEAR_CAST) //bash is for nonlethal takedowns, only targets limbs
+	name = "fishing spear"
+	desc = "This two-pronged and barbed spear was made to catch those pesky fish."
+	icon_state = "fishspear"
+	icon = 'icons/roguetown/weapons/64.dmi'
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	bigboy = TRUE
+	gripsprite = TRUE
+	wlength = WLENGTH_GREAT
+	w_class = WEIGHT_CLASS_BULKY
+	minstr = 8
+	max_blade_int = 200
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/steel
+	associated_skill = /datum/skill/combat/polearms
+	blade_dulling = DULLING_BASHCHOP
+	walking_stick = TRUE
+	wdefense = 6
+	thrown_bclass = BCLASS_STAB
+	throwforce = 35
+	resistance_flags = FLAMMABLE
+
+/obj/item/rogueweapon/fishspear/depthseek //DO NOT ADD RECIPE. MEANT TO BE AN ABYSSORITE RELIC. IDEA COURTESY OF LORDINQPLAS
+	force = 45
+	name = "blessed depthseeker"
+	desc = "A beautifully crafted weapon, with handle carved of some beast's bone, inlaid with smooth seaglass at pommel and head, with two prongs smithed of fine dwarven steel. The seaglass carving at the head is a masterwork in and of itself, you can feel an abyssal energy radiating off it."
+	icon_state = "depthseek"
+	smeltresult = /obj/item/ingot/blacksteel
+	max_blade_int = 2600
+	wdefense = 8
+	throwforce = 50
+
+/obj/item/rogueweapon/fishspear/attack_self(mob/user)
+	if(user.used_intent.type == SPEAR_CAST)
+		if(user.doing)
+			user.doing = 0
+
+/obj/item/rogueweapon/fishspear/afterattack(obj/target, mob/user, proximity)
+	freshfishloot = list(
+		/obj/item/reagent_containers/food/snacks/fish/carp = 200,
+		/obj/item/reagent_containers/food/snacks/fish/sunny = 300,
+		/obj/item/reagent_containers/food/snacks/fish/salmon = 200,
+		/obj/item/reagent_containers/food/snacks/fish/eel = 150,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 20,
+	)
+	seafishloot = list(
+		/obj/item/reagent_containers/food/snacks/fish/cod = 200,
+		/obj/item/reagent_containers/food/snacks/fish/plaice = 200,
+		/obj/item/reagent_containers/food/snacks/fish/sole = 305,
+		/obj/item/reagent_containers/food/snacks/fish/angler = 150,
+		/obj/item/reagent_containers/food/snacks/fish/lobster = 300,
+		/obj/item/reagent_containers/food/snacks/fish/bass = 200,
+		/obj/item/reagent_containers/food/snacks/fish/clam = 100,
+		/obj/item/reagent_containers/food/snacks/fish/clownfish = 50,
+		/mob/living/carbon/human/species/goblin/npc/sea = 25,
+		/mob/living/simple_animal/hostile/rogue/deepone = 30,
+		/mob/living/simple_animal/hostile/rogue/deepone/spit = 30,
+	)
+	mudfishloot = list(
+		/obj/item/reagent_containers/food/snacks/fish/mudskipper = 200,
+		/obj/item/natural/worms/leech = 50,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 25,
+	)
+	var/sl = user.mind.get_skill_level(/datum/skill/labor/fishing) // User's skill level
+	var/ft = 160 //Time to get a catch, in ticks
+	var/fpp =  130 - (40 + (sl * 15)) // Fishing power penalty based on fishing skill level
+	var/frwt = list(/turf/open/water/river, /turf/open/water/cleanshallow, /turf/open/water/pond)
+	var/salwt = list(/turf/open/water/ocean, /turf/open/water/ocean/deep)
+	var/mud = list(/turf/open/water/swamp, /turf/open/water/swamp/deep)
+	if(istype(target, /turf/open/water))
+		if(user.used_intent.type == SPEAR_CAST && !user.doing)
+			if(target in range(user,3))
+				user.visible_message("<span class='warning'>[user] searches for a fish!</span>", \
+									"<span class='notice'>I begin looking for a fish to spear.</span>")
+				playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+				ft -= (sl * 20) //every skill lvl is -2 seconds
+				ft = max(20,ft) //min of 2 seconds
+				if(do_after(user,ft, target = target))
+					var/fishchance = 100 // Total fishing chance, deductions applied below
+					if(user.mind)
+						if(!sl) // If we have zero fishing skill...
+							fishchance -= 50 // 50% chance to fish base
+						else
+							fishchance -= fpp // Deduct a penalty the lower our fishing level is (-0 at legendary)
+					var/mob/living/fisherman = user
+					if(prob(fishchance)) // Finally, roll the dice to see if we fish.
+						if(target.type in frwt)
+							var/A = pickweight(freshfishloot)
+							var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
+							to_chat(user, "<span class='notice'>You see something!</span>")
+							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+							if(!do_after(user,ow, target = target))
+								if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
+									var/mob/M = A
+									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
+										new M(target)
+									else
+										new M(user.loc)
+									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
+								else
+									new A(user.loc)
+									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
+									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
+							else
+								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")								
+						if(target.type in salwt)
+							var/A = pickweight(seafishloot)
+							var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
+							to_chat(user, "<span class='notice'>You see something!</span>")
+							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+							if(!do_after(user,ow, target = target))
+								if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
+									var/mob/M = A
+									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
+										new M(target)
+									else
+										new M(user.loc)
+									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
+								else
+									new A(user.loc)
+									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
+									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)	
+							else
+								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")							
+						if(target.type in mud)
+							var/A = pickweight(mudfishloot)
+							var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
+							to_chat(user, "<span class='notice'>You see something!</span>")
+							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+							if(!do_after(user,ow, target = target))
+								if(ismob(A)) // TODO: Baits with mobs on their fishloot lists OR water tiles with their own fish loot pools
+									var/mob/M = A
+									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
+										new M(target)
+									else
+										new M(user.loc)
+									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
+								else
+									new A(user.loc)
+									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
+									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+							else
+								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
+					else
+						to_chat(user, "<span class='warning'>Not a single fish...</span>")
+						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2) // Pity XP.
+				else
+					to_chat(user, "<span class='warning'>I must stand still to fish.</span>")
+			update_icon()
+
+/obj/item/rogueweapon/fishspear/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list(
+					"shrink" = 0.6,
+					"sx" = -6,
+					"sy" = 7,
+					"nx" = 6,
+					"ny" = 8,
+					"wx" = 0,
+					"wy" = 6,
+					"ex" = -1,
+					"ey" = 8,
+					"northabove" = 0,
+					"southabove" = 1,
+					"eastabove" = 1,
+					"westabove" = 0,
+					"nturn" = -50,
+					"sturn" = 40,
+					"wturn" = 50,
+					"eturn" = -50,
+					"nflip" = 0,
+					"sflip" = 8,
+					"wflip" = 8,
+					"eflip" = 0,
+					)
+			if("wielded")
+				return list(
+					"shrink" = 0.6,
+					"sx" = 3,
+					"sy" = 1,
+					"nx" = -3,
+					"ny" = 1,
+					"wx" = -9,
+					"wy" = 1,
+					"ex" = 9,
+					"ey" = 1,
+					"northabove" = 0,
+					"southabove" = 1,
+					"eastabove" = 1,
+					"westabove" = 0,
+					"nturn" = -30,
+					"sturn" = 30,
+					"wturn" = -30,
+					"eturn" = 30,
+					"nflip" = 8,
+					"sflip" = 0,
+					"wflip" = 8,
+					"eflip" = 0,
+					)

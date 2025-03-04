@@ -208,7 +208,7 @@
 	thrown_bclass = BCLASS_CUT
 	dropshrink = 0.75
 	smeltresult = /obj/item/ingot/steel
-	wdefense = 3.5
+	wdefense = 3
 
 /obj/item/rogueweapon/sword/long/death
 	color = CLOTHING_BLACK
@@ -260,10 +260,12 @@
 			if("onbelt") return list("shrink" = 0.3, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
 
 /obj/item/rogueweapon/sword/long/malumflamm
-	name = "forgefiend"
+	name = "Forgefiend"
 	desc = "This sword's creation took a riddle in its own making. A great sacrifice for perfect quality."
 	icon_state = "malumflamberge"
-	max_integrity = 200
+	max_integrity = 300
+	wbalance = 0.5
+	wdefense = 4
 
 /obj/item/rogueweapon/sword/long/zizo
 	name = "darksteel longsword"
@@ -490,12 +492,13 @@
 	slot_flags = ITEM_SLOT_BACK //Too big for hip
 
 /obj/item/rogueweapon/sword/long/exe/astrata
-	name = "solar judge"
+	name = "Solar Judge"
 	desc = "This wicked executioner's blade calls for order."
 	icon_state = "astratasword"
 	max_integrity = 200
+	force_wielded = 35
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/axe/chop/battle)
 
 /obj/item/rogueweapon/sword/long/exe/getonmobprop(tag)
 	. = ..()
@@ -587,14 +590,12 @@
 	wdefense = 6
 	wbalance = 1
 
-/obj/item/rogueweapon/sword/sabre/nockhopesh
-	name = "moonlight khopesh"
+/obj/item/rogueweapon/sword/sabre/elf/nockhopesh
+	name = "Moonlight Khopesh"
 	icon_state = "nockhopesh"
 	desc = "Glittering moonlight upon blued steel."
-	wdefense = 7
 	force = 25
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/chop/falx)
-	max_integrity = 200
+	max_integrity = 250
 
 /obj/item/rogueweapon/sword/sabre/dec
 	icon_state = "decsaber"

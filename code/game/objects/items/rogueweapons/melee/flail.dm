@@ -59,6 +59,14 @@
 	hitsound = list('sound/combat/hits/blunt/flailhit.ogg')
 	item_d_type = "blunt"
 
+/datum/intent/flail/strike/smash/necra
+	name = "sever"
+	blade_class = BCLASS_CHOP
+	penfactor = 70
+	damfactor = 1.2 //Weaker because delimbs bypass protection flags and this can be really brutal.
+	icon_state = "inchop"
+	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
+
 /datum/intent/flail/strike/smashrange
 	name = "ranged smash"
 	chargetime = 25
@@ -95,9 +103,10 @@
 	minstr = 9
 
 /obj/item/rogueweapon/flail/necraflail
-	name = "swift journey"
+	name = "Swift Journey"
 	desc = "The striking head is full of teeth, rattling viciously with ever strike, with every rotation. Each set coming from one the wielder has laid to rest. Carried alongside them as a great show of respect."
 	icon_state = "necraflail"
+	force = 30
 
 /datum/intent/whip/lash
 	name = "lash"
@@ -151,6 +160,12 @@
 	icon_state = "inpunish"
 	item_d_type = "blunt"
 
+/datum/intent/whip/punish/cackle
+	name = "cackle"
+	clickcd = 4
+	hitsound = list('sound/magic/webspin.ogg')
+	misscost = -4
+
 /obj/item/rogueweapon/whip
 	force = 22
 	possible_item_intents = list(/datum/intent/whip/crack, /datum/intent/whip/lash, /datum/intent/whip/punish)
@@ -184,10 +199,13 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/whip/xylix
-	name = "cackle lash"
+	name = "Cackle Lash"
 	desc = "The chimes of this whip are said to sound as the trickster's laughter itself."
 	icon_state = "xylixwhip"
+	possible_item_intents = list(/datum/intent/whip/crack, /datum/intent/whip/lash, /datum/intent/whip/punish/cackle)
 	force = 24
+	wbalance = 1.5
+	swingsound = list('sound/magic/webspin.ogg')
 
 /obj/item/rogueweapon/whip/antique
 	force = 28

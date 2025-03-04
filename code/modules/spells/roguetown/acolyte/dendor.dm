@@ -115,4 +115,411 @@
 		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))
 		first_cast = TRUE
 	. = ..()
-	
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift
+	name = "Beast Form"
+	desc = "Take on the form of one of Dendor's sacred beasts."
+	overlay_state = "tamebeast"
+	releasedrain = 60
+	charge_max = 60 SECONDS
+	invocation = "Treefather grant me your form!"
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 80
+	miracle = TRUE
+	clothes_req = FALSE
+	human_req = FALSE
+
+	var/revert_on_death = TRUE
+	var/die_with_shapeshifted_form = FALSE
+	var/convert_damage = FALSE
+	var/convert_damage_type = BRUTE
+	var/selected_form = null
+	var/death_cooldown = 600
+	var/saved_form = null
+
+var/static/list/druid_forms = list(
+	// Basic forms (Level 1)
+	"cat" = list(
+		"path" = /mob/living/simple_animal/pet/cat,
+		"level" = 1
+	),
+	"mudcrab" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab,
+		"level" = 1
+	),
+	"rous" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
+		"level" = 2
+	),
+	// Intermediate forms (Level 2-3)
+	"volf" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/wolf,
+		"level" = 2
+	),
+	"spider" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/spider,
+		"level" = 2
+	),
+	"mossback" = list(
+				"path" = /mob/living/simple_animal/hostile/retaliate/rogue/mossback,
+		"level" = 3
+	),
+	"mole" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/mole,
+		"level" = 3
+	),
+	// Advanced forms (Level 6)
+	"dragon" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/dragon,
+		"level" = 6
+	),
+	"minotaur" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/minotaur,
+		"level" = 6
+	),
+	"troll" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/troll,
+		"level" = 6
+	),
+	"saiga" = list(
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/saiga,
+		"level" = 3
+	),
+)
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/Initialize()
+	. = ..()
+	START_PROCESSING(SSfastprocess, src)
+	charge_type = "recharge"
+	charge_counter = charge_max
+	charge_max = 30 SECONDS
+	recharging = FALSE
+	still_recharging_msg = span_warning("[name] is still recharging!")
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/cast(mob/living/carbon/human/user)
+	to_chat(user, span_notice("DEBUG: Starting shapeshift cast"))
+
+	// Keep existing psicross check for initial transformation
+	var/obj/shapeshift_holder/H = locate() in user
+	if(H)
+		// Remove psicross requirement for restoration
+		to_chat(user, span_notice("DEBUG: Found existing shapeshift, restoring"))
+		do_restore(user)
+		return FALSE
+
+	// Check for required items only for initial transformation
+	var/has_psicross = FALSE
+	for(var/obj/item/clothing/neck/roguetown/psicross/dendor/P in user.get_equipped_items())
+		has_psicross = TRUE
+		break
+	if(!has_psicross)
+		to_chat(user, span_warning("You need Dendor's psicross to cast this spell!"))
+		return FALSE
+
+	if(invocation)
+		user.say(invocation, forced = "spell")
+
+	// Only show form selection if we haven't picked one before
+	if(!saved_form)
+		var/list/animal_list = list()
+		var/druidic_level = user.mind?.get_skill_level(/datum/skill/magic/druidic) || 0
+		to_chat(user, span_notice("DEBUG: Druidic level is [druidic_level]"))
+
+		for(var/animal_name in druid_forms)
+			var/list/animal_data = druid_forms[animal_name]
+			if(animal_data["level"] <= druidic_level)
+				animal_list[animal_name] = animal_data["path"]
+				to_chat(user, span_notice("DEBUG: Added [animal_name] to available forms"))
+
+		if(!length(animal_list))
+			to_chat(user, span_warning("Your druidic knowledge is insufficient to take on any beast forms!"))
+			return FALSE
+
+		to_chat(user, span_notice("DEBUG: Opening form selection menu"))
+		var/new_shapeshift_type = input(user, "Choose Your Animal Form! (Druidic Level: [druidic_level])", "It's Morphing Time!", null) as null|anything in sortList(animal_list)
+		if(!new_shapeshift_type)
+			to_chat(user, span_warning("DEBUG: No form selected"))
+			return FALSE
+
+		to_chat(user, span_notice("DEBUG: Selected form [new_shapeshift_type]"))
+		saved_form = animal_list[new_shapeshift_type]
+
+	selected_form = saved_form
+	if(selected_form)
+		to_chat(user, span_notice("DEBUG: Attempting shapeshift"))
+		do_shapeshift(user)
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/proc/do_shapeshift(mob/living/caster)
+	var/obj/shapeshift_holder/shapeshift_holder = locate() in caster
+	if(shapeshift_holder)
+		to_chat(caster, span_warning("You're already shapeshifted!"))
+		return
+
+	// Store original state and paralyze briefly during transformation TO beast form only
+	var/oldinv = caster.invisibility
+	caster.invisibility = INVISIBILITY_MAXIMUM
+	caster.Paralyze(1, ignore_canstun = TRUE)
+
+	// Transformation effects and messages
+	caster.flash_fullscreen("redflash3") // Same effect as werewolves
+	to_chat(caster, span_userdanger("Your bones crack and reshape as Dendor's blessing takes hold!"))
+	caster.visible_message(span_warning("[caster]'s form begins to twist and contort unnaturally!"), \
+						span_warning("The transformation is agonizing!"))
+
+	// Drop all items EXCEPT the psicross
+	for(var/obj/item/W in caster)
+		if(!istype(W, /obj/item/clothing/neck/roguetown/psicross/dendor))
+			caster.dropItemToGround(W)
+
+	// Add transformation effects
+	playsound(caster.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+	caster.spawn_gibs(FALSE)
+
+	// Create new mob with its own fresh stats
+	var/mob/living/simple_animal/hostile/shape = new selected_form(caster.loc)
+
+	// Create shapeshift holder with proper typing
+	shapeshift_holder = new /obj/shapeshift_holder(shape, src, caster)
+
+	// Keep original stats from the mob type
+	shape.maxHealth = initial(shape.maxHealth)
+	shape.health = shape.maxHealth
+	shape.melee_damage_lower = initial(shape.melee_damage_lower)
+	shape.melee_damage_upper = initial(shape.melee_damage_upper)
+	shape.dodgetime = 20 // Allow dodging for all forms
+
+	// Enable combat capabilities
+	shape.dextrous = TRUE
+	shape.held_items = list(null, null)
+	shape.can_have_ai = FALSE
+	shape.AIStatus = AI_OFF
+	shape.stat_attack = CONSCIOUS
+	shape.environment_smash = ENVIRONMENT_SMASH_STRUCTURES
+	ADD_TRAIT(shape, TRAIT_BASHDOORS, TRAIT_GENERIC)
+
+	// Form-specific setup
+	switch(selected_form)
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/mole)
+			shape.attack_verb_continuous = "claws"
+			shape.attack_verb_simple = "claw"
+			shape.attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 25
+			shape.melee_damage_upper = 35
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/wolf)
+			shape.attack_verb_continuous = "mauls"
+			shape.attack_verb_simple = "maul"
+			shape.attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 30
+			shape.melee_damage_upper = 40
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/troll)
+			shape.attack_verb_continuous = "crushes"
+			shape.attack_verb_simple = "crush"
+			shape.attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw/troll, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 40
+			shape.melee_damage_upper = 60
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/dragon)
+			shape.attack_verb_continuous = "tears into"
+			shape.attack_verb_simple = "tear into"
+			shape.attack_sound = pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 45
+			shape.melee_damage_upper = 65
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/spider)
+			shape.attack_verb_continuous = "bites"
+			shape.attack_verb_simple = "bite"
+			shape.attack_sound = pick('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 20
+			shape.melee_damage_upper = 30
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/mossback)
+			shape.attack_verb_continuous = "slashes"
+			shape.attack_verb_simple = "slash"
+			shape.attack_sound = pick('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 25
+			shape.melee_damage_upper = 35
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/bigrat)
+			shape.attack_verb_continuous = "bites"
+			shape.attack_verb_simple = "bite"
+			shape.attack_sound = pick('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 15
+			shape.melee_damage_upper = 25
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab)
+			shape.attack_verb_continuous = "pinches"
+			shape.attack_verb_simple = "pinch"
+			shape.attack_sound = pick('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 10
+			shape.melee_damage_upper = 20
+
+		if(/mob/living/simple_animal/pet/cat)
+			shape.attack_verb_continuous = "claws"
+			shape.attack_verb_simple = "claw"
+			shape.attack_sound = pick('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 5
+			shape.melee_damage_upper = 10
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/minotaur)
+			shape.attack_verb_continuous = "gores"
+			shape.attack_verb_simple = "gore"
+			shape.attack_sound = pick('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw/troll, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 40
+			shape.melee_damage_upper = 60
+
+		if(/mob/living/simple_animal/hostile/retaliate/rogue/saiga)
+			shape.attack_verb_continuous = "rams"
+			shape.attack_verb_simple = "ram"
+			shape.attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 25
+			shape.melee_damage_upper = 35
+
+		else // Default animal form setup
+			shape.attack_verb_continuous = "attacks"
+			shape.attack_verb_simple = "attack"
+			shape.attack_sound = pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg')
+			shape.base_intents = list(/datum/intent/unarmed/claw, /datum/intent/simple/bite)
+			shape.melee_damage_lower = 15
+			shape.melee_damage_upper = 25
+
+
+	// Combat setup
+	shape.faction = list("rogueanimal")
+	shape.a_intent = INTENT_HARM
+	shape.update_a_intents()
+
+	// Register death signal
+	RegisterSignal(shape, COMSIG_LIVING_DEATH, PROC_REF(handle_death))
+
+	// Store original mob and transfer mind BEFORE moving the caster
+	if(caster.mind)
+		caster.mind.transfer_to(shape)
+		shape.name = "[caster.real_name] ([initial(shape.name)])"
+		shape.real_name = shape.name
+
+	// Move caster into holder AFTER mind transfer
+	caster.forceMove(shapeshift_holder)
+
+	// Reset visibility and update icons
+	shape.invisibility = oldinv
+	caster.invisibility = oldinv  // Reset original mob visibility too
+	shape.update_icon()
+	shape.regenerate_icons()
+
+	// Start cooldown
+	if(action)
+		action.UpdateButtonIcon()
+	start_recharge()
+
+	return shape
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/proc/do_restore(mob/living/shape)
+	var/obj/shapeshift_holder/shapeshift_holder = locate() in shape
+	if(!shapeshift_holder)
+		return
+
+	var/was_dead = shape.stat == DEAD
+
+	// Store visibility
+	var/oldinv = shape.invisibility
+	shape.invisibility = INVISIBILITY_MAXIMUM
+
+	// Transformation effects and messages
+	shape.flash_fullscreen("redflash3")
+	to_chat(shapeshift_holder.stored, span_userdanger("Your bones painfully snap back as you return to your original form!"))
+	shape.visible_message(span_warning("[shape]'s bestial form begins to recede!"), \
+						span_warning("The transformation back is just as painful!"))
+
+	// Add transformation effects
+	playsound(shape.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
+	shape.spawn_gibs(FALSE)
+
+	// Restore original form
+	shapeshift_holder.restore()
+
+	// Reset visibility on restored mob
+	var/mob/living/restored = shapeshift_holder.stored
+	if(restored)
+		restored.invisibility = oldinv
+
+	if(was_dead)
+		charge_counter = 0
+		charge_max = death_cooldown
+		start_recharge()
+		to_chat(restored, span_warning("The strain of your form's death leaves you unable to shapeshift again for some time!"))
+
+/mob/living/simple_animal/hostile/retaliate/rogue/proc/attack_target(atom/A)
+	if(ismob(A))
+		var/mob/M = A
+		if(M.attack_animal(src))
+			return TRUE
+	return FALSE
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/process(delta_time)
+	if(recharging && charge_type == "recharge")
+		charge_counter += delta_time
+		if(charge_counter >= charge_max)
+			charge_counter = charge_max
+			recharging = FALSE
+			if(action)
+				action.UpdateButtonIcon()
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/perform(list/targets, recharge = TRUE, mob/user = usr)
+    before_cast(targets)
+    invocation(user)
+    if(user?.ckey)
+        user.log_message(span_danger("cast the spell [name]."), LOG_ATTACK)
+    if(cast(user))
+        if(sound)
+            playMagSound()
+        after_cast(targets)
+        if(action)
+            action.UpdateButtonIcon()
+        start_recharge() // Only start recharge after successful cast
+        return TRUE
+    return FALSE
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/can_cast(mob/user)
+	if(!..())
+		return FALSE
+	if(recharging)
+		to_chat(user, still_recharging_msg)
+		return FALSE
+	if(charge_counter < charge_max)
+		to_chat(user, still_recharging_msg)
+		return FALSE
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/dendor_shapeshift/proc/handle_death(mob/living/shape)
+    SIGNAL_HANDLER
+
+    var/obj/shapeshift_holder/H = locate() in shape
+    if(!H)
+        return
+
+    // Set cooldown before restoration
+    charge_counter = 0
+    charge_max = death_cooldown  // Set to long cooldown
+    recharging = TRUE  // This was missing!
+    if(action)
+        action.UpdateButtonIcon()  // Update the button to show recharging
+
+    // Restore form and notify
+    to_chat(H.stored, span_warning("The strain of your form's death leaves you unable to shapeshift again for some time!"))
+    do_restore(shape)
+
+    UnregisterSignal(shape, COMSIG_LIVING_DEATH)

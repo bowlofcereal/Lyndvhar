@@ -2,9 +2,9 @@
 	race = /datum/species/goblinp
 
 /datum/species/goblinp
-	name = "Goblin"
+	name = "Hobgoblin"
 	id = "goblinp"
-	desc = "<b>Goblin</b><br>\
+	desc = "<b>Hobgoblin</b><br>\
 	From the ashes of the BLOODWAKE many warbands and raiding parties found themselves without leaders, being hunted by the armies of the PANTHEON and shunned by every living being, those who weren’t slaughtered in the years to come retreated wherever they could, into the woods, caves and secluded mountains. It is unclear what exactly happened in the following years, some scholars speculate that Malum and Eora had felt bad for the sad, misshapen forms of the goblins and shaped them into something greater, others argue that they simply adapted to their environment, the result is either way the same. Hobgoblins live on the fringes of society. Naturally craven and greedy, most still bear semblance to their barbaric kin or demonic overlords, and some still worship them in isolation and underground cults. Shunned and despised for that very reason, many cannot forget that they have spilled the blood of thousands.<br>" 
 	species_traits = list(EYECOLOR,LIPS,STUBBLE)
 	possible_ages = ALL_AGES_LIST
@@ -93,16 +93,14 @@
 
 /datum/species/goblinp/get_skin_list()
 	return list(
-		"Green" = "317e3c",
-		"Forest" = "244f1b",
-		"Red" = "87312a",
-		"Bronze" = "75533b",
-		"Teal" = "0d8f68",
-		"Viridian" = "0f8a4a",
-		"Jade" = "53a16d",
-		"Lime" = "518a2d",
-		"Moss" = "538a0f",
-		"Olive" = "6b8a08",
+		"Raider" = "317e3c",
+		"Swamp Sentry" = "244f1b",
+		"Fire Touched" = "87312a",
+		"Earthen Ambusher" = "75533b",
+		"Cave Dweller" = "9deedb",
+		"Moss Collector" = "538a0f",
+		"Slinger" = "6b8a08",
+		"Ocean Kissed" = "3b455b",
 	)
 
 /datum/species/goblinp/on_species_gain(mob/living/carbon/C, datum/species/old_species)

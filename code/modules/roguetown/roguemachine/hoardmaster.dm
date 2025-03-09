@@ -66,11 +66,7 @@
 		var/l
 		for(l=1,l<=shoplength,l++)
 			var/pathi = pick(PA.contains)
-			var/obj/item/I = new pathi(get_turf(M))
-			if(shoplength == 1)
-				M.put_in_hands(I)
-			else
-				return
+			new pathi(get_turf(M))
 	if(href_list["changecat"])
 		current_cat = href_list["changecat"]
 	return attack_hand(usr)

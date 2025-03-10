@@ -28,6 +28,17 @@
 			index = findtext(t, char)
 	return t
 
+// Attempts to preserve some amount of fancy OOC / FTs
+//! !NOT SAFE! DO NOT ASSUME THIS IS SAFE!
+/proc/strip_html_dubious(t)
+	var/list/strip_chars = list("id=","href","</a>","onload","srcdoc","javascript","classid","script","<script","</div","</title>","]","</object>","xmp",".svg","getelementbyid","xml","<root","</x>,</label","datasrc","dataformatas","iframe","<comment","targetelement")
+	for(var/char in strip_chars)
+		var/index = findtext(t, char)
+		if(index)
+			t = sanitize_simple(t, list(","="", "."="", "/"="", "\\"="", "?"="", "%"="", "*"="", ":"="", "|"="", "\""="", "<"="", ">"=""))
+			return t
+	return t
+
 // Removes punctuation
 /proc/strip_punctuation(t,limit=MAX_MESSAGE_LEN)
 	var/list/strip_chars = list(",",".","!","?")

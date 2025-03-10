@@ -12,6 +12,13 @@
 	var/list/skins = pref_species.get_skin_list()
 	skin_tone = skins[pick(skins)]
 	eye_color = random_eye_color()
+	is_legacy = FALSE
+	flavortext = null
+	flavortext_display = null
+	ooc_notes_display = " "
+	ooc_extra_link = null
+	ooc_extra = null
+	headshot_link = null
 	features = pref_species.get_random_features()
 	body_markings = pref_species.get_random_body_markings(features)
 	accessory = "Nothing"

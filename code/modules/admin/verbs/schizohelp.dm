@@ -93,6 +93,7 @@ GLOBAL_LIST_EMPTY_TYPED(schizohelps, /datum/schizohelp)
 /datum/schizohelp/proc/answer_schizo(answer, mob/voice)
 	if(QDELETED(src) || !voice.client)
 		return
+	answer = copytext(sanitize(answer), 1, MAX_MESSAGE_LEN)
 	to_chat(owner, "<i>I hear a voice in my head...\n<b>[answer]</i></b>")
 
 	for(var/client/listener in (GLOB.clients - owner.client))

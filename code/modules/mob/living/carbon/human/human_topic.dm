@@ -10,14 +10,24 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		var/mob/user = usr
 		var/list/dat = list()
 		dat += "<div align='center'><font size = 5; font color = '#dddddd'><b>[src]</b></font></div>"
+		if(isnull(flavortext_display) && flavortext)
+			is_legacy = TRUE
+			flavortext_display = replacetext(flavortext, "\n", "<BR>")
+		if(isnull(ooc_notes_display) && ooc_notes)
+			is_legacy = TRUE
+			ooc_notes_display = replacetext(ooc_notes, "\n", "<BR>")
+		if(is_legacy)
+			dat += "<center><i><font color = '#b9b9b9'; font size = 1>This is a LEGACY Profile from naive days of Psydon.</font></i></center>"
 		if(valid_headshot_link(null, headshot_link, TRUE))
 			dat += ("<div align='center'><img src='[headshot_link]' width='325px' height='325px'></div>")
 		if(flavortext)
-			dat += "<div align='left'>[replacetext(flavortext, "\n", "<BR>")]</div>"
+			dat += "<div align='left'>[flavortext_display]</div>"
 		if(ooc_notes)
 			dat += "<br>"
 			dat += "<div align='center'><b>OOC notes</b></div>"
-			dat += "<div align='left'>[replacetext(ooc_notes, "\n", "<BR>")]"
+			dat += "<div align='left'>[ooc_notes_display]</div>"
+		if(ooc_extra)
+			dat += "[ooc_extra]"
 		var/datum/browser/popup = new(user, "[src]", nwidth = 600, nheight = 800)
 		popup.set_content(dat.Join())
 		popup.open(FALSE)

@@ -143,7 +143,7 @@
 var/static/list/druid_forms = list(
 	// Basic forms (Level 1)
 	"cat" = list(
-		"path" = /mob/living/simple_animal/pet/cat,
+		"path" = /mob/living/simple_animal/hostile/retaliate/rogue/cat,
 		"level" = 1
 	),
 	"mudcrab" = list(

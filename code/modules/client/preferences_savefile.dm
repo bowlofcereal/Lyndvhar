@@ -473,7 +473,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		headshot_link = null
 
 	S["flavortext"]			>> flavortext
+	S["flavortext_display"]	>> flavortext_display
 	S["ooc_notes"]			>> ooc_notes
+	S["ooc_notes_display"]	>> ooc_notes_display
+	S["ooc_extra"]			>> ooc_extra
+	S["ooc_extra_link"]		>> ooc_extra_link
+	S["is_legacy"]			>> is_legacy
 
 	S["char_accent"]		>> char_accent
 	if (!char_accent)
@@ -622,8 +627,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
-	WRITE_FILE(S["flavortext"] , flavortext)
-	WRITE_FILE(S["ooc_notes"] , ooc_notes)
+	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
+	WRITE_FILE(S["flavortext_display"], flavortext_display)
+	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
+	WRITE_FILE(S["ooc_notes_display"], ooc_notes_display)
+	WRITE_FILE(S["ooc_extra"],	ooc_extra)
+	WRITE_FILE(S["ooc_extra_link"],	ooc_extra_link)
+	WRITE_FILE(S["is_legacy"], is_legacy)
 	WRITE_FILE(S["char_accent"] , char_accent)
 	WRITE_FILE(S["voice_type"] , voice_type)
 	WRITE_FILE(S["pronouns"] , pronouns)

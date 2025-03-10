@@ -139,6 +139,8 @@
 */
 	var/PQ_boost_divider = 0
 
+	var/list/virtue_restrictions
+	var/list/vice_restrictions
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE

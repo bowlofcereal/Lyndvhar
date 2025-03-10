@@ -38,3 +38,5 @@ templarofpsydon.ogg: 26 - Duty and Honor II (with Ryan Patrick Buckley) - Chival
 combat_HEAVY_METAL.ogg: Soyuz - The Great War has come
 combat_holy.ogg: Jesper Kyd - Light of the Imperium
 combat_treasurehunter.ogg: Henry Jackman - Cut To The Chase
+combat_starsugar.ogg: FEMTANYL - DOGMATICA
+combat_ozium.ogg: Light Club - FAHKEET

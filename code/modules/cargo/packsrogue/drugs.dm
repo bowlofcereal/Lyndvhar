@@ -10,6 +10,10 @@
 	cost = 5
 	contains = list(/obj/item/reagent_containers/powder/ozium)
 
+/datum/supply_pack/rogue/drugs/purifiedozium
+	name = "Purified Ozium"
+	cost = 20
+	contains = list(/obj/item/reagent_containers/powder/purified_ozium)
 
 /datum/supply_pack/rogue/drugs/moondust
 	name = "Moon Dust"
@@ -35,3 +39,8 @@
 	name = "Pipeweed Zig"
 	cost = 2
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
+
+/datum/supply_pack/rogue/drugs/starsugar
+	name = "Starsugar"
+	cost = 40
+	contains = list(/obj/item/reagent_containers/powder/starsugar)

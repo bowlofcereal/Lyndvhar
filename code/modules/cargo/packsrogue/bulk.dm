@@ -48,3 +48,13 @@
 	name = "Barrel of Gron Mead"
 	cost = 100
 	contains = list(/obj/structure/fermenting_barrel/gronmead)
+
+/datum/supply_pack/rogue/bulk/murkwine
+	name = "Barrel of Possumtail Murkwine"
+	cost = 150
+	contains = list(/obj/structure/fermenting_barrel/murkwine)
+
+/datum/supply_pack/rogue/bulk/nocshine
+	name = "Barrel of Moonlight Noc Shine"
+	cost = 150
+	contains = list(/obj/structure/fermenting_barrel/nocshine)

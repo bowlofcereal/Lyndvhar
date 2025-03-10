@@ -294,7 +294,8 @@
 /datum/reagent/moondust_purest/on_mob_life(mob/living/carbon/M)
 	narcolepsy_drug_up(M)
 	if(M.reagents.has_reagent(/datum/reagent/moondust))
-		M.Sleeping(40, 0)
+		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.Sleeping(40, 0)
 	if(M.has_flaw(/datum/charflaw/addiction/junkie))
 		M.sate_addiction()
 	M.apply_status_effect(/datum/status_effect/buff/moondust_purest)
@@ -305,3 +306,149 @@
 /datum/reagent/moondust_purest/overdose_start(mob/living/M)
 	M.playsound_local(M, 'sound/misc/heroin_rush.ogg', 100, FALSE)
 	M.visible_message(span_warning("Blood runs from [M]'s nose."))
+
+/obj/item/reagent_containers/powder/starsugar
+	name = "starsugar"
+	desc = "A powerful stimulant. Brings you closer to feeling as She does. Taboo and illegal in many places."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "starsugar"
+	item_state = "starsugar"
+	possible_transfer_amounts = list()
+	volume = 15
+	list_reagents = list(/datum/reagent/starsugar = 15, /datum/reagent/consumable/nutriment = 24) // monster and newports diet
+	grind_results = list(/datum/reagent/starsugar = 15)
+	sellprice = 25
+
+/datum/reagent/starsugar
+	name = "starsugar"
+	description = ""
+	color = "#e47cdf"
+	overdose_threshold = 20
+	metabolization_rate = 0.5
+
+/datum/reagent/starsugar/on_mob_metabolize(mob/living/L)
+	..()
+	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
+	L.playsound_local(L, 'sound/ravein/small/hello_my_friend.ogg', 100, FALSE)
+	L.flash_fullscreen("whiteflash")
+	animate(L.client, pixel_y = 1, time = 1, loop = -1, flags = ANIMATION_RELATIVE)
+	animate(pixel_y = -1, time = 1, flags = ANIMATION_RELATIVE)
+
+/datum/reagent/starsugar/on_mob_end_metabolize(mob/living/L)
+	L.remove_status_effect(/datum/status_effect/buff/starsugar)
+	L.remove_movespeed_modifier(type)
+	animate(L.client)
+	..()
+
+/datum/reagent/starsugar/on_mob_life(mob/living/carbon/M)
+	var/high_message = pick("You feel hyper.", "You feel like you need to go faster.", "You feel like you can run the world.")
+	if(prob(5))
+		to_chat(M, "<span class='notice'>[high_message]</span>")
+	M.AdjustStun(-40, FALSE)
+	M.AdjustKnockdown(-40, FALSE)
+	M.AdjustUnconscious(-40, FALSE)
+	M.AdjustParalyzed(-40, FALSE)
+	M.AdjustImmobilized(-40, FALSE)
+	M.adjustStaminaLoss(-2, 0)
+	M.Jitter(2)
+	if(M.reagents.has_reagent(/datum/reagent/purified_ozium))
+		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.Sleeping(40, 0)
+	if(prob(5))
+		M.emote(pick("twitch", "shiver", "sniff"))
+	narcolepsy_drug_up(M)
+	if(M.has_flaw(/datum/charflaw/addiction/junkie))
+		M.sate_addiction()
+	M.apply_status_effect(/datum/status_effect/buff/starsugar)
+	if(prob(20))
+		M.flash_fullscreen("whiteflash")
+	..()
+	..()
+	. = 1
+
+/datum/reagent/starsugar/overdose_process(mob/living/M)
+	M.playsound_local(M, 'sound/misc/heroin_rush.ogg', 100, FALSE)
+	M.visible_message(span_warning("Blood runs from [M]'s nose."))
+	if((M.mobility_flags & MOBILITY_MOVE) && !ismovableatom(M.loc))
+		for(var/i in 1 to 4)
+			step(M, pick(GLOB.cardinals))
+	if(prob(20))
+		M.emote("laugh")
+	if(prob(15))
+		M.visible_message("<span class='danger'>[M]'s face turns pale and sweaty!</span>")
+		M.drop_all_held_items()
+	..()
+	M.adjustToxLoss(4, 0)
+	. = 1
+
+/datum/reagent/purified_ozium
+	name = "purified ozium"
+	description = ""
+	reagent_state = LIQUID
+	color = "#ff6207"
+	overdose_threshold = 20
+	metabolization_rate = 0.5
+
+/obj/item/reagent_containers/powder/purified_ozium
+	name = "Herozium"
+	desc = "Sweet unfeeling. Do you like to hurt other people? Outright banned and controlled in most regions."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "purified_ozium"
+	item_state = "purified_ozium"
+	possible_transfer_amounts = list()
+	volume = 15
+	list_reagents = list(/datum/reagent/purified_ozium = 15)
+	grind_results = list(/datum/reagent/purified_ozium = 15)
+	sellprice = 30
+
+/atom/movable/screen/fullscreen/purified_ozium
+	icon = 'icons/roguetown/maniac/fullscreen_wakeup.dmi'
+	icon_state = "wake_up"
+	plane = FLOOR_PLANE
+	layer = ABOVE_OPEN_TURF_LAYER
+	blend_mode = 0
+	show_when_dead = FALSE
+
+/datum/reagent/purified_ozium/on_mob_life(mob/living/carbon/M)
+	M.jitteriness = 0
+	M.confused = 0
+	M.disgust = 0
+	M.set_drugginess(30)
+	M.overlay_fullscreen("purifiedozium", /atom/movable/screen/fullscreen/purified_ozium)
+	M.apply_status_effect(/datum/status_effect/buff/purified_ozium)
+	if(M.reagents.has_reagent(/datum/reagent/ozium))
+		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.Sleeping(80, 0)
+	if(M.reagents.has_reagent(/datum/reagent/starsugar))
+		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.Sleeping(80, 0)
+	if(prob(15))
+		M.playsound_local(M, 'sound/misc/heroin_rush.ogg', 100, FALSE)
+	if(M.has_flaw(/datum/charflaw/addiction/junkie))
+		M.sate_addiction()
+	..()
+	. = 1
+
+/datum/reagent/purified_ozium/on_mob_end_metabolize(mob/living/M)
+	M.clear_fullscreen("purifiedozium")
+	M.set_drugginess(0)
+	M.remove_status_effect(/datum/status_effect/buff/purified_ozium)
+	if(M.client)
+		SSdroning.play_area_sound(get_area(M), M.client)
+	M.update_body_parts_head_only()
+
+/datum/reagent/purified_ozium/overdose_process(mob/living/M)
+	if(prob(30))
+		var/reaction = rand(1,3)
+		switch(reaction)
+			if(1)
+				M.emote("gag")
+			if(2)
+				M.emote("snore")
+				M.Dizzy(25)
+			if(3)
+				M.emote("yawn")
+	M.Sleeping(40, 0)
+	M.adjustOxyLoss(4, 0)
+	..()
+	. = 1

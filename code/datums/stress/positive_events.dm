@@ -123,6 +123,11 @@
 	desc = span_boldgreen("PURE moondust surges through me!")
 	timer = 4 MINUTES
 
+/datum/stressevent/starsugar
+	stressadd = -1
+	desc = span_boldgreen("My heart rushes, my blood runs, I feel tightly bound together. I could run a marathon.")
+	timer = 4 MINUTES
+
 /datum/stressevent/campfire
 	stressadd = -1
 	desc = span_green("The warmth of the fire is comforting.")

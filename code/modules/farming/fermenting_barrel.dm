@@ -194,8 +194,22 @@
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/avarrice,900)
 
 /obj/structure/fermenting_barrel/gronmead
-	desc = "A barrel with a Shieldmaiden Berewrey mark. A deep red honey-wine, refined with the red berries native to Gronns highlands."
+	desc = "A barrel with a Shieldmaiden Brewery mark. A deep red honey-wine, refined with the red berries native to Gronns highlands."
 
 /obj/structure/fermenting_barrel/gronmead/Initialize()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/gronnmead,900)
+
+/obj/structure/fermenting_barrel/murkwine
+	desc = "A barrel with a Possumtail Brewery mark. Two Volk tails interlace with eachother upon the seal in a dance. A country tradition from Weocilyn."
+
+/obj/structure/fermenting_barrel/murkwine/Initialize()
+	. = ..()
+	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/murkwine,900)
+
+/obj/structure/fermenting_barrel/nocshine
+	desc = "A barrel with a blue, Crescent moon mark. The wisest choice of drinks."
+
+/obj/structure/fermenting_barrel/nocshine/Initialize()
+	. = ..()
+	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/nocshine,900)

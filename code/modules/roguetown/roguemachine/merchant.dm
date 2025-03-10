@@ -195,9 +195,7 @@
 		var/l
 		for(l=1,l<=shoplength,l++)
 			var/pathi = pick(PA.contains)
-			var/obj/item/I = new pathi(get_turf(M))
-			if(shoplength == 1)
-				M.put_in_hands(I)
+			new pathi(get_turf(M))
 	if(href_list["change"])
 		if(budget > 0)
 			budget2change(budget, usr)

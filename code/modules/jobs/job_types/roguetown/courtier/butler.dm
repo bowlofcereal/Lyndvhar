@@ -74,6 +74,7 @@
 		H.change_stat("intelligence", 2)
 		H.change_stat("perception", 2)
 		H.change_stat("fortune", 1) // Usual leadership carrot.
+		ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/seneschal/headmaid
 	name = "Head Maid"
@@ -116,6 +117,7 @@
 		H.change_stat("intelligence", 2)
 		H.change_stat("perception", 2)
 		H.change_stat("fortune", 1) // Usual leadership carrot.
+		ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
 
 /datum/advclass/seneschal/chiefbutler
 	name = "Chief Butler"
@@ -157,4 +159,4 @@
 		H.change_stat("intelligence", 2)
 		H.change_stat("perception", 2)
 		H.change_stat("fortune", 1) // Usual leadership carrot.
-
+		ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)

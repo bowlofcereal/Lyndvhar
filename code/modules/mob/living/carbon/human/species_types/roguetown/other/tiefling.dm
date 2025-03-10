@@ -113,7 +113,9 @@
 		"Nessyss" = SKIN_COLOR_NESSYSS,
 		"Helixia" = SKIN_COLOR_HELIXIA,
 		"Nymsea" = SKIN_COLOR_NYMSEA,
-		"Calvus" = SKIN_COLOR_CALVUS
+		"Calvus" = SKIN_COLOR_CALVUS,
+		"Voibion" = SKIN_COLOR_VOIBION,
+		"Chyerno" = SKIN_COLOR_CHYERNO
 	)
 
 /datum/species/tieberian/get_hairc_list()

@@ -261,6 +261,17 @@
 		return
 	return TryToSwitchState(user)
 
+/obj/structure/mineral_door/attack_right(mob/user)
+	if(!keylock)
+		return ..()
+
+	if(door_opened || isSwitchingStates || brokenstate)
+		return ..()
+
+	var/datum/rmb_intent/door_unlock/unlock = new()
+	unlock.special_attack(user, src)
+	return TRUE
+
 /obj/structure/mineral_door/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/effect/beam))
 		return !opacity
@@ -385,6 +396,12 @@
 			repairdoor(I,user)
 		else
 			return ..()
+
+/obj/structure/mineral_door/attacked_by(obj/item/I, mob/living/user)
+	..()
+	if(obj_broken || obj_destroyed)
+		var/obj/effect/track/structure/new_track = new(get_turf(src))
+		new_track.handle_creation(user)
 
 /obj/structure/mineral_door/proc/repairdoor(obj/item/I, mob/user)
 	if(brokenstate)				
@@ -541,6 +558,8 @@
 						var/mob/living/carbon/human/H = user
 						message_admins("[H.real_name]([key_name(user)]) successfully lockpicked [src.name]. [ADMIN_JMP(src)]")
 						log_admin("[H.real_name]([key_name(user)]) successfully lockpicked [src.name].")
+						var/obj/effect/track/structure/new_track = new(get_turf(src))
+						new_track.handle_creation(user)
 					lock_toggle(user)
 					break
 				else

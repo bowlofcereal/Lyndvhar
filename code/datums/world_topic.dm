@@ -44,6 +44,7 @@
 
 // TOPICS
 
+
 /datum/world_topic/ping
 	keyword = "ping"
 	log = FALSE
@@ -52,6 +53,12 @@
 	. = 0
 	for (var/client/C in GLOB.clients)
 		++.
+
+/datum/world_topic/updatewl
+	keyword = "updatewl"
+
+/datum/world_topic/updatewl/Run(list/input)
+	load_whitelist()
 
 /datum/world_topic/playing
 	keyword = "playing"

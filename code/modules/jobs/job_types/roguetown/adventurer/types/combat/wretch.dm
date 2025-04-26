@@ -10,7 +10,7 @@
 	classes = list("Deserter" = "You were once a venerated and revered knight - now, a traitor who abandoned your liege. You live the life of an outlaw, shunned and looked down upon by society.",
 					"Outlaw" = "You're a seasoned criminal known for your heinous acts, your face plastered on wanted posters across the region. A life of theft, robbery, and ill-gotten-gains comes naturally to you.",
 					"Poacher" = "You have rejected society and its laws, choosing life in the wilderness instead. Simple thieving highwayman or freedom fighter, you take from those who have and give to the have-nots. Fancy, how that includes yourself!",
-					"Heretic" = "You are a heretic, spurned by the church, cast out from society - frowned upon by Psydon and his children for your faith.",
+					"Heretic" = "You are a heretic, spurned by the church, cast out from society - frowned upon by Astrata and her siblings for your faith.",
 					"Necromancer" = "You have been ostracized and hunted by society for your dark magics and perversion of life.")
 
 
@@ -208,7 +208,7 @@
 
 
 		if("Heretic")
-			to_chat(H, span_warning("You are a heretic, spurned by the church, cast out from society - frowned upon by Psydon and his children for your faith."))
+			to_chat(H, span_warning("You are a heretic, spurned by the church, cast out from society - frowned upon by Astrata and her siblings for your faith."))
 			if (!(istype(H.patron, /datum/patron/inhumen/zizo) || istype(H.patron, /datum/patron/inhumen/matthios)))
 				to_chat(H, span_warning("My former deity frowned upon my practices. I have since turned to a new god."))
 				H.set_patron(pick(/datum/patron/inhumen/zizo, /datum/patron/inhumen/matthios))

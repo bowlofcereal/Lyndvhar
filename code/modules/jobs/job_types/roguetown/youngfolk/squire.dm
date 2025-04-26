@@ -18,7 +18,7 @@
 
 	tutorial = "Your folks said you were going to be something, they had better aspirations for you than the life of a peasant. You practiced the basics \
 		in the field alongside your friends, swordfighting with sticks, chasing rabbits with grain flail, and helping around the house lifting heavy \
-		bags of grain. The Knight took notice of your potential and brought you on as his personal ward. You're going to be something someday."
+		bags of grain. The Knights took notice of your potential and brought you on as one of their personal wards. You're going to be something someday."
 	outfit = /datum/outfit/job/roguetown/squire
 	display_order = JDO_SQUIRE
 	give_bank_account = TRUE

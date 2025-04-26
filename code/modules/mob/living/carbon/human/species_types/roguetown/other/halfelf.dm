@@ -79,32 +79,36 @@
 		/datum/language/elvish
 	)
 
+/*
 /datum/species/human/halfelf/on_species_gain(mob/living/carbon/literally_him, datum/species/old_species)
 	..()
 	languages(literally_him)
+*/
 
 /datum/species/human/halfelf/get_skin_list()
 	return list(
-		"Timber-Gronn" = SKIN_COLOR_TIMBER_GRONN,
-		"Giza-Azure" = SKIN_COLOR_GIZA_AZURE,
-		"Walnut-Stine" = SKIN_COLOR_WALNUT_STINE,
-		"Etrustcan-Dandelion" = SKIN_COLOR_ETRUSTCAN_DANDELION,
-		"Naledi-Born" = SKIN_COLOR_NALEDI_BORN,
-		"Kaze-Lotus" = SKIN_COLOR_KAZE_LOTUS,
-		"Grenzel-Azuria" = SKIN_COLOR_GRENZEL_WOODS,
-		"Etrusca-Lirvas" = SKIN_COLOR_ETRUSCA_LIRVAS,
-		"Free Roamers" = SKIN_COLOR_FREE_FOLK,
-		"Avar Borne"	= SKIN_COLOR_AVAR_BORNE,
-		"Shalvine Roamer" = SKIN_COLOR_SHALVINE_AZURE,
-		"Lalve-Steppes" = SKIN_COLOR_LALVE_NALEDI,
-		"Naledi-Otava" = SKIN_COLOR_NALEDI_OTAVA,
-		"Grezel-Avar" = SKIN_COLOR_GRENZEL_AVAR,
-		"Hammer-Gronn" = SKIN_COLOR_HAMMER_GRONN
+		"Jungle-Atvergian" = SKIN_COLOR_JUNGLE_ATVERGIAN,     // Was Timber-Gronn
+		"Zybantia-Valorian" = SKIN_COLOR_ZYBANTIA_VALORIAN,    // Was Giza-Azure
+		"Moon-Dunargi" = SKIN_COLOR_MOON_DUNARGI,         // Was Walnut-Stine
+		"Plains-Calmirixian" = SKIN_COLOR_PLAINS_CALMIRIXIAN,   // Was Etrustcan-Dandelion
+		"Khazumite-Borne" = SKIN_COLOR_KHAZUMITE_BORNE,       // Was Naledi-Born
+		"Salvum-Lotus" = SKIN_COLOR_SALVUM_LOTUS,         // Was Kaze-Lotus
+		"Grenzel-Lyndhardtian" = SKIN_COLOR_GRENZEL_RHAENVAL, // Was Grenzel-Azuria (using GRENZEL_RHAENVAL define)
+		"Plains-Atvergian" = SKIN_COLOR_PLAINS_ATVERGIAN,     // Was Etrusca-Lirvas
+		"Bastardborne" = SKIN_COLOR_BASTARDBORNE,         // Was Free Roamers
+		"Crestfallen" = SKIN_COLOR_CRESTFALLEN,          // Was Avar Borne
+		"Zybantia-Khazumite" = SKIN_COLOR_ZYBANTIA_KHAZUMITE,   // Was Shalvine Roamer
+		"Grenzel-Desert" = SKIN_COLOR_GRENZEL_DESERT,       // Was Lalve-Steppes
+		"Khazum-Valorian" = SKIN_COLOR_KHAZUM_VALORIAN,      // Was Naledi-Otava
+		"Grenzel-Rhaenval" = SKIN_COLOR_GRENZEL_RHAENVAL,     // Was Grezel-Avar
+		"Lynd-Khazumite" = SKIN_COLOR_LYND_KHAZUMITE        // Was Hammer-Gronn
 	)
 
+/*
 /datum/species/human/halfelf/proc/languages(mob/living/carbon/human/literally_him)
-	if(literally_him.skin_tone == SKIN_COLOR_NALEDI_BORN)
+	if(literally_him.skin_tone == SKIN_COLOR_KHAZUMITE_BORNE)
 		literally_him.grant_language(/datum/language/celestial)
+*/
 
 /datum/species/human/halfelf/get_hairc_list()
 	return sortList(list(

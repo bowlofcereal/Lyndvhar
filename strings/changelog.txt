@@ -1,4 +1,7 @@
-Roleplay ads can be set in the OOC tabs. Toggle Roleplay Ads on to be notified of new postings.
-Critical hits have minimum damage thresholds.
-Loadout items can be selected in the character creation menu.
-Round Contribution Points (RCP) added to all roles apart from Adventurer. You will gain a tenth of that amount as PQ up to a maximum of 10 in total, as long as you gain at least one triumph from sleeping and have joined at least 45 minutes before the end of the round.
+- The city is near-completion and able to be played properly for a full round.
+- Multiple dungeons littered around the game area to explore and spelunk.
+- Replacing racial stats with statpacks completely. Now you can be a super fast orc, or a slow but strong elf.
+- Full adjustment of racial locks and racial lore to fit the server setting.
+- Complete overhaul of the Inhumen. Similar to what you know, but no longer the same.
+- Complete rewriting of the Pantheon. Same gist, but written without AI.
+- And many more..

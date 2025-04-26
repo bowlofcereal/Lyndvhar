@@ -145,7 +145,7 @@
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/blackgoat,900)
 
 /obj/structure/fermenting_barrel/hagwoodbitter
-	desc = "A barrel marked with the Hagwood Bitters emblem. The least bitter thing to be exported from the Grenzelhoft occupied state of Zorn."
+	desc = "A barrel marked with the Hagwood Bitters emblem. The least bitter thing to be exported from the Lyndhardtian province of Calmirixial."
 
 /obj/structure/fermenting_barrel/hagwoodbitter/Initialize()
 	. = ..()
@@ -180,21 +180,21 @@
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/saigamilk,900)
 
 /obj/structure/fermenting_barrel/kgsunsake
-	desc = "A barrel with a Golden Swan mark. A translucient, pale-blue liquid made from rice. A favourite drink of the warlords and nobles of Kazengun."
+	desc = "A barrel with a Golden Swan mark. A translucient, pale-blue liquid made from rice. A favourite drink of the warlords and nobles of Saltlia."
 
 /obj/structure/fermenting_barrel/kgsunsake/Initialize()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/kgunsake,900)
 
 /obj/structure/fermenting_barrel/avarrice
-	desc = "A barrel with a simple mark. A murky, white wine made from rice grown in the steppes of Avar."
+	desc = "A barrel with a simple mark. A murky, white wine made from rice grown in the plantations of Greencrest."
 
 /obj/structure/fermenting_barrel/avarrice/Initialize()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer/avarrice,900)
 
 /obj/structure/fermenting_barrel/gronmead
-	desc = "A barrel with a Shieldmaiden Brewery mark. A deep red honey-wine, refined with the red berries native to Gronns highlands."
+	desc = "A barrel with a Shieldmaiden Brewery mark. A deep red honey-wine, refined with the red berries native to far northern Rhaenvalian highlands."
 
 /obj/structure/fermenting_barrel/gronmead/Initialize()
 	. = ..()

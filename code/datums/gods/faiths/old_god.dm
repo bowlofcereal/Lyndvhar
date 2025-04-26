@@ -1,5 +1,5 @@
 /datum/faith/old_god
-	name = "Foreign Gods"
-	desc = "Many realms in the world of Beowricke worship different aspects of the world, whether through different Pantheonic worship, or completely different gods entirely."
-	worshippers = "Foreigners, Valorian Orthodoxists, Rhaenvalians, Zybantine Peoples, Grenzelhoftians"
+	name = "Valorian Orthodoxy"
+	desc = "The Republica Valoria is unique in that they belief in a being known as 'Psydon' to be the singular, monotheistic God of reality. The Valorian Inquisition are firm believers in such, and valiant monster hunters."
+	worshippers = "Valorians, Orthodoxist Converts"
 	godhead = /datum/patron/old_god

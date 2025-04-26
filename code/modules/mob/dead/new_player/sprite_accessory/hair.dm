@@ -899,7 +899,7 @@
 	icon_state = "zoey"
 
 /datum/sprite_accessory/hair/head/gronnbraid
-	name = "Gronn Braid"
+	name = "Rhaenvalian Braid"
 	icon_state = "gronnbraid"
 
 /datum/sprite_accessory/hair/head/grenzelcut

@@ -34,18 +34,18 @@
 
 
 /datum/supply_pack/rogue/bulk/kgunsake
-	name = "Barrel of Kazegun Sake"
+	name = "Barrel of Saltlian Sake"
 	cost = 300
 	contains = list(/obj/structure/fermenting_barrel/kgsunsake)
 
 
 /datum/supply_pack/rogue/bulk/avarrice
-	name = "Barrel of Avarian Wine"
+	name = "Barrel of Crestborne Wine"
 	cost = 100
 	contains = list(/obj/structure/fermenting_barrel/avarrice)
 
 /datum/supply_pack/rogue/bulk/gronmead
-	name = "Barrel of Gron Mead"
+	name = "Barrel of Rhaenvalian Mead"
 	cost = 100
 	contains = list(/obj/structure/fermenting_barrel/gronmead)
 

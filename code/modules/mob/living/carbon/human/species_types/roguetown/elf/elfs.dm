@@ -92,20 +92,19 @@
 
 /datum/species/elf/wood/get_skin_list()
 	return list(
-		"Grenzel Woods" = SKIN_COLOR_GRENZEL_WOODS,
-		"Dandelion Creek" = SKIN_COLOR_DANDELION_CREEK,
-		"Roseveil" = SKIN_COLOR_ROSEVEIL,
-		"Azuregrove" = SKIN_COLOR_AZUREGROVE,
-		"Arborshome" = SKIN_COLOR_ARBORSHOME,
-		"Almondvalle" = SKIN_COLOR_ALMONDVALLE,
-		"Walnut Woods" = SKIN_COLOR_WALNUT_WOODS,
-		"Timberborn" = SKIN_COLOR_TIMBERBORN,
-		"Lotus Coast" = SKIN_COLOR_LOTUS_COAST,
-		"Grenzel Woods" = SKIN_COLOR_GRENZEL_WOODS,
-		"Etruscan Swamps" = SKIN_COLOR_ETRUSCAN_SWAMPS,
-		"Shalvine Forests" = SKIN_COLOR_SHALVINE_FORESTS,
-		"Lalvestine Thickets" = SKIN_COLOR_LALVE_STEPPES,
-		"Naledi Coverts"	= SKIN_COLOR_NALEDI_COAST
+		"Snow Elf" = SKIN_COLOR_SNOW_ELF,
+		"Plains Elf" = SKIN_COLOR_PLAINS_ELF,
+		"Crestborne Elf" = SKIN_COLOR_CRESTBORNE_ELF,
+		"Valorian Elf" = SKIN_COLOR_VALORIAN_ELF,
+		"Lyndhardtian Elf" = SKIN_COLOR_LYNDHARDTIAN_ELF,
+		"Moon Elf" = SKIN_COLOR_MOON_ELF,
+		"Wood Elf" = SKIN_COLOR_WOOD_ELF,
+		"Jungle Elf" = SKIN_COLOR_JUNGLE_ELF,
+		"Lotus Elf" = SKIN_COLOR_LOTUS_ELF,
+		"Swamp Elf" = SKIN_COLOR_SWAMP_ELF,
+		"Sun Elf" = SKIN_COLOR_SUN_ELF,
+		"Desert Elf" = SKIN_COLOR_DESERT_ELF,
+		"Khazumite Elf"	= SKIN_COLOR_KHAZUMITE_ELF
 	)
 
 /datum/species/elf/wood/get_hairc_list()

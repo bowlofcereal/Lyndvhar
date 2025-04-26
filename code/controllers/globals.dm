@@ -7,6 +7,9 @@ GLOBAL_REAL(GLOB, /datum/controller/global_vars)
 	var/list/gvars_datum_in_built_vars
 	var/list/gvars_datum_init_order
 
+	var/looc_enabled = FALSE 
+	var/restart_lock = FALSE
+
 /datum/controller/global_vars/New()
 	if(GLOB)
 		CRASH("Multiple instances of global variable controller created")
@@ -32,7 +35,7 @@ GLOBAL_REAL(GLOB, /datum/controller/global_vars)
 /datum/controller/global_vars/stat_entry()
 	if(!statclick)
 		statclick = new/obj/effect/statclick/debug(null, "Initializing...", src)
-	
+
 	stat("Globals:", statclick.update("Edit"))
 
 /datum/controller/global_vars/vv_edit_var(var_name, var_value)

@@ -15,9 +15,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	antag_hud_type = ANTAG_HUD_TRAITOR
 	antag_hud_name = "vampire lord"
 	confess_lines = list(
-		"I AM ANCIENT",
-		"I AM THE LAND",
-		"CHILD OF KAIN!",
+		"I AM OF THE ANCIENTS!",
+		"I AM THE TRUEBORNE OF MIKALASH!",
+		"THIS LAND IS MINE BY RIGHT!",
 	)
 	rogue_enabled = TRUE
 	var/isspawn = FALSE
@@ -40,7 +40,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	if(istype(examined_datum, /datum/antagonist/vampirelord/lesser))
 		return span_boldnotice("A vampire spawn.")
 	if(istype(examined_datum, /datum/antagonist/vampirelord))
-		return span_boldnotice("A Vampire Lord!.")
+		return span_boldnotice("A Vampire Lord!")
 	if(istype(examined_datum, /datum/antagonist/zombie))
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
@@ -292,12 +292,12 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	objectives += survive
 
 /datum/antagonist/vampirelord/greet()
-	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to these trespassers upon my domain."))
+	to_chat(owner.current, span_userdanger("I am ancient. At one point I was the ruler of all of this land, conquered by the Archdaemon ZIZO. But after her fall, I fell into a deep, slumberous torpor. I awake once more to reclaim my birthright in Her name."))
 	owner.announce_objectives()
 	..()
 
 /datum/antagonist/vampirelord/lesser/greet()
-	to_chat(owner.current, span_userdanger("We are awakened from our slumber, Spawn of the feared Vampire Lord."))
+	to_chat(owner.current, span_userdanger("We are awakened from our slumber, spawn of the feared Vampire Lord. This land is theirs, and we will see it be so once more."))
 	owner.announce_objectives()
 
 /datum/antagonist/vampirelord/proc/finalize_vampire()
@@ -481,7 +481,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/datum/game_mode/chaosmode/C = SSticker.mode
 	if(istype(C))
 		if(C.kingsubmit)
-			to_chat(src, "I am already the Master of Enigma.")
+			to_chat(src, "I am already the Master of Lyndvhar.")
 			return
 	for(var/mob/living/carbon/human/H in oview(1))
 		if(SSticker.rulermob == H)
@@ -790,7 +790,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				if(GLOB.tod == "night")
 					to_chat(user, "It's already night!")
 					return
-				if(alert(user, "Force Enigma into Night? Cost:5000","","Yes","No") == "Yes")
+				if(alert(user, "Force Lyndvhar into Night? Cost:5000","","Yes","No") == "Yes")
 					if(!lord.mypool.check_withdraw(-2500))
 						to_chat(user, "I don't have enough vitae!")
 						return
@@ -801,7 +801,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 						spawn(6000)
 							GLOB.todoverride = null
 							sunstolen = FALSE
-						priority_announce("The Sun is torn from the sky!", "Terrible Omen", 'sound/misc/astratascream.ogg')
+						priority_announce("The Sun is torn from the sky! A cursed omen!", "Terrible Omen", 'sound/misc/astratascream.ogg')
 						SSParticleWeather?.run_weather(/datum/particle_weather/blood_rain_storm)
 						addomen(OMEN_SUNSTEAL)
 						for(var/mob/living/carbon/human/astrater in GLOB.human_list)
@@ -841,7 +841,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	add_objective(/datum/objective/vlordserve)
 	greet()
 /datum/antagonist/skeleton/knight/greet()
-	to_chat(owner.current, span_userdanger("I am returned to serve. I will obey, so that I may return to rest."))
+	to_chat(owner.current, span_userdanger("I am returned to serve. I will obey, so that ZIZO may reign over this land once more."))
 	owner.announce_objectives()
 	..()
 
@@ -883,7 +883,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/objective/vampirelord/conquer
 	name = "conquer"
-	explanation_text = "Make the Ruler of Enigma bow to my will."
+	explanation_text = "Make the Viscount of Lyndvhar bow to my will."
 	team_explanation_text = ""
 	triumph_count = 5
 
@@ -1303,7 +1303,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		if(bloodroll >= willroll)
 			if(found_psycross == TRUE)
 				to_chat(L, "<font color='white'>The silver psycross shines and protect me from the unholy magic.</font>")
-				to_chat(user, span_userdanger("[L] has my BANE!It causes me to fail to ensnare their mind!"))
+				to_chat(user, span_userdanger("[L] has my BANE! It causes me to fail to ensnare their mind!"))
 			else
 				L.drowsyness = min(L.drowsyness + 50, 150)
 				switch(L.drowsyness)
@@ -1333,7 +1333,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		if(willroll >= bloodroll)
 			if(found_psycross == TRUE)
 				to_chat(L, "<font color='white'>The silver psycross shines and protect me from the unholy magic.</font>")
-				to_chat(user, span_userdanger("[L] has my BANE!It causes me to fail to ensnare their mind!"))
+				to_chat(user, span_userdanger("[L] has my BANE! It causes me to fail to ensnare their mind!"))
 			else
 				to_chat(user, "I fail to ensnare their mind.")
 			if(willroll - bloodroll >= 3)
@@ -1365,7 +1365,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	max_targets = 0
 
 /obj/effect/proc_holder/spell/targeted/transfix/master/cast(list/targets, mob/user = usr)
-	var/msg = input("Soothe them. Dominate them. Speak and they will succumb.", "Transfix") as text|null
+	var/msg = input("Your word is law. Speak and dominate them. They will submit.", "Transfix") as text|null
 	if(length(msg) < 10)
 		to_chat(user, span_userdanger("This is not enough!"))
 		return FALSE

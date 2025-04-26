@@ -10,7 +10,8 @@
 	selection_color = JCOLOR_YEOMAN
 	allowed_races = RACES_SHUNNED_UP
 	tutorial = "Cloth, linen, silk and leather. You've tirelessly studied and poured your life into \
-	sewing articles of protection, padding, and fashion for serf and noble alike."
+	sewing articles of protection, padding, and fashion for serf and noble alike. While many may not see you as such, you are perhaps \
+	one of the most important individuals in the city: your deft hand and meticulous work will keep many a citizen alive and well-fitted."
 	display_order = JDO_TAILOR
 	outfit = /datum/outfit/job/roguetown/tailor
 	give_bank_account = 16

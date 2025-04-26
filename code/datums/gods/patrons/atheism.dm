@@ -1,8 +1,8 @@
 /datum/patron/godless
-	name = "Science"
+	name = "Apostasy"
 	domain = "Ontological Reality"
-	desc = "No gods or kings, only man! Gods exist but you give them the finger."
-	worshippers = "Madmen, beasts and some dwarves"
+	desc = "No gods or kings, only man! You and others are known as what are Apostates- those who reject all divinity in favor of their own strength."
+	worshippers = "Madmen, Narcissists, beasts, powerful nobility, and some dwarves"
 	associated_faith = /datum/faith/godless
 	preference_accessible = FALSE
 	undead_hater = FALSE

@@ -73,7 +73,7 @@
 
 /obj/item/clothing/mask/rogue/lordmask/tarnished
 	name = "tarnished golden halfmask"
-	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The gold is now worthless, but that is not why the Naledi wear them."
+	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The gold is now worthless, but that is not why the Khazumians wear them."
 	sellprice = 20
 
 /obj/item/clothing/mask/rogue/wildguard
@@ -119,7 +119,7 @@
 
 /obj/item/clothing/mask/rogue/facemask/psydonmask
 	name = "psydonian mask"
-	desc = "A silver mask, forever locked in a rigor of uncontestable joy. The Order of Saint Xylix can't decide on whether it's meant to represent Psydon's 'mirthfulness', 'theatricality', or the unpredictable melding of both."
+	desc = "A silver mask, forever locked in a rigor of uncontestable joy."
 	icon_state = "psydonmask"
 	item_state = "psydonmask"
 
@@ -250,5 +250,5 @@
 	name = "war scholar's mask"
 	item_state = "naledimask"
 	icon_state = "naledimask"
-	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross."
+	desc = "Runes and wards, meant for the Maktaba; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Khaliphate insignia."
 	sellprice = 0

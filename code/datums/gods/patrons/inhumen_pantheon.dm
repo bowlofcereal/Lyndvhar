@@ -21,7 +21,7 @@
 	confess_lines = list(
 		"PRAISE ZIZO!",
 		"LONG LIVE ZIZO!",
-		"ZIZO IS QUEEN!",
+		"ZIZO REIGNS SUPREME!",
 	)
 
 /datum/patron/inhumen/graggar

@@ -1,6 +1,6 @@
 /datum/advclass/mercenary/forlorn
-	name = "Forlorn Hope Mercenary"
-	tutorial = "The Order of the Forlorn Hope, a order formed off the back of a Zybantian slave revolt. Drawing from all walks of life, this mercenary company now takes ranks from both purchased and liberated slaves. Coin is power, and power is the path to freedom."
+	name = "Forvheipal Jannisary"
+	tutorial = "A Jannisary from the strange and enigmatic kingdom in Yoheon, Forvheipal. The Jannisary are an elite sellsword contingent of the Zapyrixian Order- mostly made up of Lupians and Vulpkians. They will do any work for the highest bidder- and thus you will, too."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/forlorn
@@ -45,3 +45,4 @@
 		H.change_stat("endurance", 2)
 		H.change_stat("constitution", 1) 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)

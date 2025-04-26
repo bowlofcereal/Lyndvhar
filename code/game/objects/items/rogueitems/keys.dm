@@ -278,7 +278,7 @@
 //vampire mansion//
 /obj/item/roguekey/vampire
 	name = "mansion key"
-	desc = "The key to a vampire lord's castle."
+	desc = "The key to a strange manor in the darkness."
 	icon_state = "vampkey"
 	lockid = "mansionvampire"
 //

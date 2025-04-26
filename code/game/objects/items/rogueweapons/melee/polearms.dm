@@ -647,8 +647,8 @@
 					)
 
 /obj/item/rogueweapon/woodstaff/naledi
-	name = "naledian warstaff"
-	desc = "A staff carrying the crescent moon of Psydon's knowledge, as well as the black and gold insignia of the war scholars."
+	name = "Khazumian warstaff"
+	desc = "A staff carrying the crescent moon of Khuzker's knowledge, as well as the black and gold insignia of the Khaliphate."
 	icon_state = "naledistaff"
 	force = 18
 	force_wielded = 28

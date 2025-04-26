@@ -26,11 +26,11 @@
 #define TRAIT_NUDIST "Nudist" //you can't wear most clothes
 #define TRAIT_CYCLOPS_LEFT "Cyclops (Left)" //poked left eye
 #define TRAIT_CYCLOPS_RIGHT "Cyclops (Right)" //poked right eye
-#define TRAIT_INHUMEN_ANATOMY "Inhumen Anatomy" //can't wear hats and shoes
-#define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten food, organs, poison berries, and drink murky water
+#define TRAIT_INHUMEN_ANATOMY "Unnatural Anatomy" //can't wear hats and shoes
+#define TRAIT_NASTY_EATER "Unnatural Digestion" //can eat rotten food, organs, poison berries, and drink murky water
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
-#define TRAIT_NOFALLDAMAGE1 "Minor fall damage immunity"
-#define TRAIT_NOFALLDAMAGE2 "Total fall damage immunity"
+#define TRAIT_NOFALLDAMAGE1 "Light Step"
+#define TRAIT_NOFALLDAMAGE2 "Rogue Step"
 #define TRAIT_MISSING_NOSE "Missing Nose" //halved stamina regeneration
 #define TRAIT_DISFIGURED "Disfigured"
 #define TRAIT_SPELLCOCKBLOCK "Bewitched" //prevents spellcasting
@@ -45,7 +45,7 @@
 #define TRAIT_TRAINED_SMITH "Trained Smith"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"  // Allows use of ritual chalk
-#define TRAIT_INQUISITION "Member of the Valorian Inquisition"
+#define TRAIT_INQUISITION "Member of the Orthodoxy"
 #define TRAIT_GOODTRAINER "Good Trainer"
 #define TRAIT_OUTDOORSMAN "Outdoorsman"
 #define TRAIT_SEA_DRINKER "Denizen of the Deep"
@@ -77,11 +77,11 @@
 #define TRAIT_XYLIX "Blessing of Xylix" //secret thieves cant language
 #define TRAIT_FORGEBLESSED "Blessing of Malum" //Reduces the fatigue cost of smithing a bit.
 
-// ASCENDANT CULTIST TRAITS (all of them recognize each other)
-#define TRAIT_COMMIE "Blessing of Matthios" //recognized by bandits as an ally
-#define TRAIT_CABAL "Of the Cabal" //Zizo cultists recognize each other too
-#define TRAIT_HORDE "Anointed" //Graggarites also recognize each other
-#define TRAIT_DEPRAVED "Fallen" //Baothans also recognize each other
+// ARCHDAEMON CULTIST TRAITS (all of them recognize each other)
+#define TRAIT_COMMIE "Thiefborne Follower" //recognized by bandits as an ally
+#define TRAIT_CABAL "Zizonic Follower" //Zizo cultists recognize each other too
+#define TRAIT_HORDE "Blood Anointed" //Graggarites also recognize each other
+#define TRAIT_DEPRAVED "Devout of Depravity" //Baothans also recognize each other
 
 #define TRAIT_BASHDOORS "bashdoors"
 #define TRAIT_NOMOOD "no_mood"
@@ -121,22 +121,22 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_LEPROSY = span_necrosis("I'm a disgusting leper..."),
 	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
 	TRAIT_RITUALIST = span_info("I am skilled in the holy arts. Using ritual chalk, I can more deftly channel my God's powers via runes."),
-	TRAIT_INQUISITION = span_info("I am a member of the Otavan Inquisition. I can easily identify others of my cadre at a glance."),
-	TRAIT_CHOSEN = "Astrata choose you to represent her glory.",
+	TRAIT_INQUISITION = span_info("I am a member of the Valorian Inquisition. I can easily identify others of my cadre at a glance."),
+	TRAIT_CHOSEN = "Astrata chose you to represent her glory.",
 	TRAIT_WEBWALK = "I can move freely between webs.",
 	TRAIT_NOSTINK = span_dead("My nose is numb to the smell of decay."),
 	TRAIT_ZJUMP = "Time to reach a new high.",
 	TRAIT_JESTERPHOBIA = span_warning("I have a severe irrational fear of Jesters"),
-	TRAIT_XENOPHOBIC = span_warning("Lesser races pollute our land"),
-	TRAIT_TOLERANT = span_info("I dream of an ideal future, one with peace between all races"),
-	TRAIT_NIGHT_OWL = span_info("I enjoy spending my time in the night"),
-	TRAIT_BEAUTIFUL = span_info("People love looking at my face"),
-	TRAIT_BAD_MOOD = span_warning("Everything just seems to piss me off"),
+	TRAIT_XENOPHOBIC = span_warning("Lesser races pollute our land."),
+	TRAIT_TOLERANT = span_info("I dream of an ideal future, one with peace between all races."),
+	TRAIT_NIGHT_OWL = span_info("I enjoy spending my time in the night."),
+	TRAIT_BEAUTIFUL = span_info("People love looking at my face."),
+	TRAIT_BAD_MOOD = span_warning("Everything just seems to piss me off."),
 	TRAIT_LEAPER = "I can leap like a frog, landing where I want.",
 	TRAIT_NOSEGRAB = "I love to grab idiots by their noses!",
 	TRAIT_NUTCRACKER = "I love kicking idiots on the nuts!",
 	TRAIT_SEEPRICES = "I can tell the prices of things down to the zenny.",
-	TRAIT_SEEPRICES_SHITTY = "I can tell the prices of things... <i>Kind of</i>.",
+	TRAIT_SEEPRICES_SHITTY = "I can tell the prices of things... <i>kind of</i>.",
 	TRAIT_STRONGBITE = "Stronger bites, critical bite attacks.",
 	TRAIT_NOBLE = span_blue("I'm of noble blood."),
 	TRAIT_EMPATH = "I can notice when people are in pain.",
@@ -147,14 +147,14 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MAGEARMOR = "My magics can protect me from a blow every so often.",
 	TRAIT_DECEIVING_MEEKNESS = "People look at me and think I am a weakling. They are mistaken. I've learned how to feint, and how to avoid theirs.",
 	TRAIT_CRITICAL_RESISTANCE = "I am resistant to wounds that would be life threatening to others.",
-	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
-	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
-	TRAIT_NOROGSTAM = "I have boundless energy, I will never tire.",
+	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive!"),
+	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the system knows this. It will resist."),
+	TRAIT_NOROGSTAM = "I have boundless energy, and I will never tire.",
 	TRAIT_NUDIST = "I <b>refuse</b> to wear clothes. They are a hindrance to my freedom.",
 	TRAIT_CYCLOPS_LEFT = span_warning("My left eye has been poked out..."),
 	TRAIT_CYCLOPS_RIGHT = span_warning("My right eye has been poked out..."),
 	TRAIT_LEECHIMMUNE = "Leeches are reluctant to bite me.",
-	TRAIT_INHUMEN_ANATOMY = "My anatomy is inhumen, preventing me from wearing hats and shoes.",
+	TRAIT_INHUMEN_ANATOMY = "My anatomy is unnatural, preventing me from wearing hats and shoes.",
 	TRAIT_NASTY_EATER = span_dead("I can eat bad food, and water that would be toxic to humen will not affect me."),
 	TRAIT_WILD_EATER = span_info("I can eat raw food and drink from dirty water."),
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
@@ -183,12 +183,12 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
 	TRAIT_ABYSSOR_SWIM = "I get far less tired when swimming than my peers.",
-	TRAIT_LONGSTRIDER = "Each of my steps finds it's footing no matter how treacherous the terrain is.",
+	TRAIT_LONGSTRIDER = "Each of my steps finds its footing no matter how treacherous the terrain is.",
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
 	TRAIT_DEATHSIGHT = span_info("I can feel when someone nearby draws the Undermaiden's attention."),
 	TRAIT_FORGEBLESSED = span_info("Countless long nights spent forging metal have honed my endurance, allowing me to work an anvil far longer than most without tiring."),
 	TRAIT_XYLIX = span_info("I know how to speak in code that only fellow tricksters can understand."),
-	TRAIT_CABAL = span_info("In secret, I have studied the ways of Her ascension, and know of others of the Cabal."),
+	TRAIT_CABAL = span_info("In secret, I have studied the ways of the First, and know of others of the Cult."),
 	TRAIT_HORDE = span_info("BY BLOOD AND BONE, I AM OF GRAGGAR'S ANOINTED! I FEEL THE STRENGTH IN OTHERS WHO ARE THE SAME."),
 	TRAIT_FORTITUDE = span_info("The typical drain I feel from day to day life is lessened, my athleticism greater."),
 	TRAIT_GUIDANCE = span_info("The arcyne aides me in battle."),
@@ -203,7 +203,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_INTELLECTUAL = span_info("I have a keen eye and can assess a person's prowess in wit and blade."),
 	TRAIT_COUNTERCOUNTERSPELL = span_info("I automatically know when to counter Counterspells, and can do so without even thinking about it."),
 	TRAIT_UNSEEMLY = span_info("My face is ugly and makes everyone who looks at me miserable."),
-	TRAIT_HERETIC_SEER = span_info("I can tell other Ascendant followers without sharing their faith."),
+	TRAIT_HERETIC_SEER = span_info("I can tell other Daemonic followers without sharing their faith."),
 	TRAIT_DUALWIELDER = span_info("If I wield two identical weapons, I  roll twice for my attacks, and so will the enemy against me. I do not suffer penalties from using my off-hand in combat."),
 	TRAIT_SENTINELOFWITS = span_info("My Intelligence aids in my defense. Every 2 points above 10 INT become an additional 10% chance to dodge or parry. Does not count positive buffs from potions or substances."),
 	TRAIT_KEENEARS = span_info("I've a good pair of ears, and can tell who is speaking, even when they're out of sight."),

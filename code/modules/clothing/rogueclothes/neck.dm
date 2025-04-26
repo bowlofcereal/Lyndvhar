@@ -184,8 +184,8 @@
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/neck/roguetown/gorget/forlorncollar
-	name = "forlorn collar"
-	desc = "A old reminder."
+	name = "zaprixys collar"
+	desc = "All lower members of the Zaprixys are bound to a collar to exemplify their service."
 	max_integrity = 300
 	icon_state = "iwolfcollaralt"
 
@@ -224,47 +224,47 @@
 
 /obj/item/clothing/neck/roguetown/psicross/astrata
 	name = "amulet of Astrata"
-	desc = ""
+	desc = "Blessed are those of the Order."
 	icon_state = "astrata"
 
 /obj/item/clothing/neck/roguetown/psicross/noc
 	name = "amulet of Noc"
-	desc = ""
+	desc = "May the Crescent Moon watch over us all."
 	icon_state = "noc"
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor
 	name = "amulet of Abyssor"
-	desc = ""
+	desc = "The tides shall fall in Her wake."
 	icon_state = "abyssor"
 
 /obj/item/clothing/neck/roguetown/psicross/dendor
 	name = "amulet of Dendor"
-	desc = ""
+	desc = "A mark of the madness."
 	icon_state = "dendor"
 
 /obj/item/clothing/neck/roguetown/psicross/necra
 	name = "amulet of Necra"
-	desc = ""
+	desc = "Let death not be the end."
 	icon_state = "necra"
 
 /obj/item/clothing/neck/roguetown/psicross/pestra
 	name = "amulet of Pestra"
-	desc = ""
+	desc = "To heal all sick, to cure all disease."
 	icon_state = "pestra"
 
 /obj/item/clothing/neck/roguetown/psicross/ravox
 	name = "amulet of Ravox"
-	desc = ""
+	desc = "May your battles be many, and your defeats few!"
 	icon_state = "ravox"
 
 /obj/item/clothing/neck/roguetown/psicross/malum
 	name = "amulet of Malum"
-	desc = ""
+	desc = "The golden hammer strikes true."
 	icon_state = "malum"
 
 /obj/item/clothing/neck/roguetown/psicross/eora
 	name = "amulet of Eora"
-	desc = ""
+	desc = "May the gardens be fruitful."
 	icon_state = "eora"
 
 /obj/item/clothing/neck/roguetown/psicross/wood
@@ -340,7 +340,7 @@
 
 /obj/item/clothing/neck/roguetown/talkstone
 	name = "talkstone"
-	desc = ""
+	desc = "A curious stone that emblazens with strength, fitted around a small rope for a necklace."
 	icon_state = "talkstone"
 	item_state = "talkstone"
 	//dropshrink = 0.75
@@ -351,7 +351,7 @@
 
 /obj/item/clothing/neck/roguetown/horus
 	name = "eye of horuz"
-	desc = ""
+	desc = "A mark of prestige, marking the wearer as a reputable member of the Financial and Merchant's Guild."
 	icon_state = "horus"
 	//dropshrink = 0.75
 	body_parts_covered = NECK
@@ -363,7 +363,7 @@
 
 /obj/item/clothing/neck/roguetown/shalal
 	name = "desert rider medal"
-	desc = ""
+	desc = "An amulet engraved with the emblem of the Zybantu."
 	icon_state = "shalal"
 	//dropshrink = 0.75
 	body_parts_covered = NECK
@@ -418,8 +418,8 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 
 /obj/item/clothing/neck/roguetown/psicross/naledi
-	name = "naledian psy-bracelet"
-	desc = "A peculiar icon of worship from a foreign land. Forming the three-progned Psydonite cross in a circular ring, this bracelet embodies the Naledian belief of Psydon's eternity."
+	name = "khazumian bracelet"
+	desc = "A peculiar icon of worship from a foreign land. Forming a cross in a circular ring, this bracelet embodies the Khazumian belief in Khuzker."
 	icon_state = "psybracelet"
 	item_state = null
 

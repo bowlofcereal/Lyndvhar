@@ -78,17 +78,17 @@
 /datum/species/human/northern/get_skin_list()
 	return list(
 		"Grenzelhoft" = SKIN_COLOR_GRENZELHOFT,
-		"Hammerhold" = SKIN_COLOR_HAMMERHOLD,
-		"Avar" = SKIN_COLOR_AVAR,
-		"Rockhill" = SKIN_COLOR_ROCKHILL,
-		"Otava" = SKIN_COLOR_OTAVA,
-		"Etrusca" = SKIN_COLOR_ETRUSCA,
-		"Gronn" = SKIN_COLOR_GRONN,
-		"North Zybantia (Giza)" = SKIN_COLOR_GIZA,
-		"West Zybantia (Shalvistine)" = SKIN_COLOR_SHALVISTINE,
-		"East Zybantia (Lalvestine)" = SKIN_COLOR_LALVESTINE,
-		"Naledi" = SKIN_COLOR_NALEDI,
-		"Kazengun" = SKIN_COLOR_KAZENGUN
+		"Lyndhardtian" = SKIN_COLOR_LYNDHARDTIAN,         // Was Hammerhold
+		"Rhaenvalian" = SKIN_COLOR_RHAENVALIAN,          // Was Avar
+		"Dunargi" = SKIN_COLOR_DUNARGI,              // Was Rockhill
+		"Valorian" = SKIN_COLOR_VALORIAN,             // Was Otava
+		"Calmirixian" = SKIN_COLOR_CALMIRIXIAN,          // Was Etrusca
+		"Atvergian" = SKIN_COLOR_ATVERGIAN,            // Was Gronn
+		"Northern Zybantium" = SKIN_COLOR_NORTHERN_ZYBANTIUM,   // Was North Zybantia (Giza)
+		"Western Zybantium" = SKIN_COLOR_WESTERN_ZYBANTIUM,    // Was West Zybantia (Shalvistine)
+		"Eastern Zybantium" = SKIN_COLOR_EASTERN_ZYBANTIUM,    // Was East Zybantia (Lalvestine)
+		"Khazumian" = SKIN_COLOR_KHAZUMIAN,            // Was Naledi
+		"Salvumite" = SKIN_COLOR_SALVUMITE 		 // Was Kazengun
 	)
 
 /datum/species/human/northern/get_hairc_list()

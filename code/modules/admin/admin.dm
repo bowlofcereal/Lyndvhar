@@ -381,6 +381,36 @@
 					to_chat(world, "Server restart - [init_by]")
 					world.TgsEndProcess()
 
+/datum/admins/proc/shutdown_server()
+    set category = "Server"
+    set name = "Shutdown Server (No Restart)"
+    set desc = "Attempts to shut the server down cleanly and signals external scripts NOT to restart."
+
+    if(!check_rights(R_SERVER))
+        return
+
+    var/confirm = alert(usr, "Are you absolutely sure you want to shut down the server? This attempts to Kill Dream Deamon.", "Confirm Shutdown", "Yes", "No")
+    if(confirm != "Yes")
+        return
+
+    var/reason = "Shutdown initiated by admin [key_name(usr)]"
+
+    // Log the action and inform other admins
+    log_admin(reason)
+    message_admins(span_boldwarning("[reason] - Engaging restart lock and initiating shutdown."))
+    SSblackbox.record_feedback("tally", "admin_verb", 1, "Shutdown Server") 
+
+    if(!GLOB.restart_lock)
+        GLOB.restart_lock = TRUE
+        message_admins("Server restart lock has been engaged by shutdown verb.")
+        log_admin("Server restart lock engaged by shutdown verb.")
+    else
+        message_admins("Server restart lock was already engaged.") 
+
+    to_chat(world, span_boldnotice("Server is shutting down NOW. Restart lock engaged."))
+
+    shutdown()
+
 /datum/admins/proc/end_round()
 	set category = "Server"
 	set name = "End Round"
@@ -442,6 +472,19 @@
 	log_admin("[key_name(usr)] toggled OOC.")
 	message_admins("[key_name_admin(usr)] toggled OOC.")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle OOC", "[GLOB.ooc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/datum/admins/proc/togglelooc()
+	set category = "Server" // You can change this to "Admin" if you prefer
+	set desc="Toggle dis bitch" 
+	set name="Toggle LOOC"
+
+	GLOB.looc_enabled = !GLOB.looc_enabled 
+	var/status = GLOB.looc_enabled ? "ENABLED" : "DISABLED" 
+	var/log_msg = "LOOC has been [status] by [key_name(usr)]."
+
+	log_admin(log_msg) 
+	message_admins(log_msg) 
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle LOOC", "[status]")) // Use status variable
 
 /datum/admins/proc/toggleoocdead()
 	set category = "Server"

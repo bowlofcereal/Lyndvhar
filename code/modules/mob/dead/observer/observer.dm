@@ -74,8 +74,8 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 /mob/dead/observer/rogue/nodraw
 	draw_icon = FALSE
 	icon = 'icons/roguetown/mob/misc.dmi'
-	icon_state = "ghost"
-	alpha = 100
+	icon_state = "hollow"
+	alpha = 150
 
 /mob/dead/observer/rogue/Move(n, direct)
 	if(world.time < next_gmove)

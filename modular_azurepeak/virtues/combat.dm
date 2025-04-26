@@ -186,7 +186,7 @@
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"
-	desc = "Whether it was by the Naledi scholars, Etruscan privateers or even the Kazengan senseis. I've been graced with the knowledge of how to wield two weapons at once, making my offense more formidable, at the expense of my defense. When I wield two identical type weapons, I roll attacks twice, but so does the enemy against me. I've also learned to become ambidextrous, ignoring any off-hand penalties."
+	desc = "Whether it was by fighting against the Khaliphate, Rhaenvalian privateers or even the Grenzelhoftian elite. I've been graced with the knowledge of how to wield two weapons at once, making my offense more formidable, at the expense of my defense. When I wield two identical type weapons, I roll attacks twice, but so does the enemy against me. I've also learned to become ambidextrous, ignoring any off-hand penalties."
 	added_traits = list(TRAIT_DUALWIELDER)
 
 /datum/virtue/combat/sharp

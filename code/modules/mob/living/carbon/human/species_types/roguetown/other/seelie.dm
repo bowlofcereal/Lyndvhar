@@ -24,7 +24,7 @@
 	disliked_food = NONE
 	liked_food = NONE
 	possible_ages = ALL_AGES_LIST
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/f/fm.dmi'		//CHANGE THESE TO NEW SPRITEWORK
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fm.dmi'		//All fairies are technically female in code, but are genderless in lore
 	dam_icon = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
@@ -74,7 +74,7 @@
 		//datum/customizer/organ/testicles/human, //no sex for seelie (bowl told me to be nice in the comments)
 		//datum/customizer/organ/penis/human,
 		//datum/customizer/organ/breasts/human,
-		/datum/customizer/organ/belly/human,
+		//datum/customizer/organ/belly/human,
 		//datum/customizer/organ/butt/human,
 		//datum/customizer/organ/vagina/human,
 		)

@@ -289,3 +289,27 @@
 	name = "Rites Complete"
 	desc = "It will take time before I can next perform a rite."
 	icon_state = "ritesexpended"
+
+/// SEELIE DEBUFFS
+
+/datum/status_effect/buff/seelie/sad
+	id = "Seelie Curse"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/seelie/sad
+	effectedstats = list("fortune" = -2)
+	duration = 60 SECONDS
+
+/atom/movable/screen/alert/status_effect/buff/seelie/sad
+	name = "Seelie Curse"
+	desc = "A nearby Seelie has spread their poor mood unto me."
+	icon_state = "stressb"
+
+/datum/status_effect/debuff/seelie_wing_curse
+	id = "seelie_wing_curse"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/seelie_wing_curse
+	effectedstats = list("fortune" = -2)
+	duration = 4 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/seelie_wing_curse
+	name = "Curse of the Seelie"
+	desc = "I've been cursed for my horrific deed..."
+	icon_state = "stressb"

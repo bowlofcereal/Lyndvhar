@@ -41,6 +41,7 @@
 #define TRAIT_FASTSLEEP "Fast Sleeper"
 #define TRAIT_GOODLOVER "Fabled Lover"
 #define TRAIT_SEEDKNOW "Seed Knower"
+#define TRAIT_TINY "Tiny"
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
@@ -166,6 +167,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ANTISCRYING = "I am immune to most forms of magical divination.",
 	TRAIT_SHOCKIMMUNE = "I am immune to electrical shocks.",
 	TRAIT_NOSLEEP = span_warning("I can't sleep."),
+	TRAIT_TINY = span_info("I am tiny in size and quite fragile!"),
 	TRAIT_ROT_EATER = span_necrosis("I can eat rotten food."),
 	TRAIT_ORGAN_EATER = span_bloody("I can eat organs and raw flesh."),
 	TRAIT_KNEESTINGER_IMMUNITY = "I am immune to the shock of kneestingers.",

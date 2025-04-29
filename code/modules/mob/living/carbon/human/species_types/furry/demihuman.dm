@@ -147,6 +147,5 @@
 		"Western Zybantium" = SKIN_COLOR_WESTERN_ZYBANTIUM,    // Was West Zybantia (Shalvistine)
 		"Eastern Zybantium" = SKIN_COLOR_EASTERN_ZYBANTIUM,    // Was East Zybantia (Lalvestine)
 		"Khazumian" = SKIN_COLOR_KHAZUMIAN,            // Was Naledi
-		"Salvumite" = SKIN_COLOR_SALVUMITE,             // Was Kazengun
-		"Saltlian" = SKIN_COLOR_SALTLIAN
+		"Salvumite" = SKIN_COLOR_SALVUMITE             // Was Kazengun
 	)

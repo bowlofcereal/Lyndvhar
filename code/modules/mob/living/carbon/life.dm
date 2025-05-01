@@ -127,6 +127,9 @@
 		else if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !(mobility_flags & MOBILITY_STAND))
 			rogstam_add(5)
 
+		if(!IsSleeping() && (mobility_flags & MOBILITY_STAND) && isseelie(src) && (haswings(src) == TRUE) && !(buckled)) //Very slop but dont know of another way
+			fairy_hover()
+
 		handle_brain_damage()
 
 	else
@@ -134,6 +137,20 @@
 
 
 	check_cremation()
+	//Seelie luck aura
+	if(isseelie(src) && !IsSleeping())
+		for(var/mob/living/carbon/human/H in view(1, src))
+			if(!H || isseelie(H))
+				continue
+			switch(src.aura)
+				if(FALSE)
+					H.apply_status_effect(/datum/status_effect/buff/seelie/sad)
+					H.remove_status_effect(/datum/status_effect/buff/seelie/happy)
+				if(TRUE)
+					H.apply_status_effect(/datum/status_effect/buff/seelie/happy)
+					H.remove_status_effect(/datum/status_effect/buff/seelie/sad)
+	//Updates the number of stored chemicals for powers
+//	handle_changeling()
 
 	if(stat != DEAD)
 		return 1
@@ -626,3 +643,24 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		return
 
 	heart.beating = !status
+
+/mob/living/carbon/proc/fairy_hover()
+	//Fairy hovering animation
+	/*
+	anim_counter += 1
+	if(anim_counter >= 50)
+		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
+	else if(amin_counter >= 70)
+		animate(src, pixel_y = pixel_y - 2, time = 10, loop = -1)
+	else if(anim_counter >= 100)
+		anim_counter = 0
+		*/
+
+	//TODO: Check is animate stopping is causing weird visual glitch (it was, checking for sleep before calling fairy_hover fixed this)
+	if(!resting && !wallpressed)
+		animate(src, pixel_y = pixel_y + 2, time = 5, loop = -1)
+	sleep(5)
+	if(!resting && !wallpressed)
+		animate(src, pixel_y = pixel_y - 2, time = 5, loop = -1)
+
+	//animate(src, pixel_x = rand(-2, 2), pixel_y = rand(-2, 2), time = 20)

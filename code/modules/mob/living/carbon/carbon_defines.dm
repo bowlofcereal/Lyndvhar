@@ -89,3 +89,5 @@
 /// Amount of remaining vitae that can be drained from this mob
 	var/vitae_pool = 8000
 
+	var/aura = TRUE //Used to switch between good luck and bad luck auras
+

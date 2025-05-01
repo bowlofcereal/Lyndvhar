@@ -60,6 +60,10 @@
 
 /turf/open/water/Exited(atom/movable/AM, atom/newloc)
 	. = ..()
+	var/mob/living/carbon/human/FM = AM
+	if(isseelie(FM) && !(FM.resting))	//Add wingcheck
+		return
+
 	for(var/obj/structure/S in src)
 		if(S.obj_flags & BLOCK_Z_OUT_DOWN)
 			return
@@ -114,6 +118,10 @@
 
 /turf/open/water/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
+	var/mob/living/carbon/human/FM = AM
+	if(isseelie(FM) && !(FM.resting))	//Add wingcheck
+		return
+
 	for(var/obj/structure/S in src)
 		if(S.obj_flags & BLOCK_Z_OUT_DOWN)
 			return
@@ -220,6 +228,10 @@
 		O.extinguish()
 
 /turf/open/water/get_slowdown(mob/user)
+	var/mob/living/carbon/human/FM = user
+	if(isseelie(FM) && !(FM.resting))	//Add wingcheck
+		return
+
 	var/returned = slowdown
 	if(user.mind && swim_skill)
 		returned = returned - (user.mind.get_skill_level(/datum/skill/misc/swimming))
@@ -279,6 +291,9 @@
 
 /turf/open/water/swamp/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
+	var/mob/living/carbon/human/FM = AM
+	if(isseelie(FM) && !(FM.resting))	//Add wingcheck
+		return
 	if(isliving(AM) && !AM.throwing)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/C = AM
@@ -314,6 +329,9 @@
 
 /turf/open/water/swamp/deep/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
+	var/mob/living/carbon/human/FM = AM
+	if(isseelie(FM) && !(FM.resting))	//Add wingcheck
+		return
 	if(isliving(AM) && !AM.throwing)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/C = AM
@@ -381,6 +399,9 @@
 
 /turf/open/water/river/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
+	var/mob/living/carbon/human/FM = AM
+	if(isseelie(FM) && !(FM.resting))	//Add wingcheck
+		return
 	if(isliving(AM))
 		if(!river_processing)
 			river_processing = addtimer(CALLBACK(src, PROC_REF(process_river)), 5, TIMER_STOPPABLE)

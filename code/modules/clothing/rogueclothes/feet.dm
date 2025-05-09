@@ -54,6 +54,13 @@
 	salvage_result = /obj/item/natural/hide/cured
 	sellprice = 30
 
+/obj/item/clothing/shoes/roguetown/nobleboot/thighboots
+	name = "thigh boots"
+	icon_state = "thighboot"
+	icon = 'icons/roguetown/clothing/special/hand.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+
 /obj/item/clothing/shoes/roguetown/shortboots
 	name = "shortboots"
 	color = "#d5c2aa"
@@ -128,6 +135,16 @@
 	icon_state = "sandals"
 	item_state = "sandals"
 	sewrepair = TRUE
+
+/obj/item/clothing/shoes/roguetown/hoplite
+	name = "ancient sandals"
+	desc = "Worn sandals lined with bronze, ready to march ever onwards."
+	gender = PLURAL
+	icon_state = "aasimarfeet"
+	item_state = "aasimarfeet"
+	sewrepair = TRUE
+	sellprice = 20
+
 
 /obj/item/clothing/shoes/roguetown/shalal
 	name = "babouche"

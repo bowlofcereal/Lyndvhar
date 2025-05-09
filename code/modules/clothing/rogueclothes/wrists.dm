@@ -64,6 +64,15 @@
 	item_state = "nocwrappings"
 	sewrepair = TRUE
 
+//Aasimar hoplite bracers
+/obj/item/clothing/wrists/roguetown/bracers/hoplite
+	name = "ancient bracers"
+	desc = "Stalwart bronze bracers, from an age long past."
+	icon_state = "aasimarwrist"
+	item_state = "aasimarwrist"
+	armor = list("blunt" = 70, "slash" = 70, "stab" = 50, "piercing" = 50, "fire" = 0, "acid" = 0)
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_CHOP)
+	
 //Queensleeves
 /obj/item/clothing/wrists/roguetown/royalsleeves
 	name = "royal sleeves"

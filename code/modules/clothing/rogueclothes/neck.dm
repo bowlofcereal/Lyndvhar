@@ -236,6 +236,15 @@
 	qdel(src)
 */
 
+/obj/item/clothing/neck/roguetown/gorget/hoplite // Better than an iron gorget, not quite as good as a steel bervor
+	name = "ancient gorget"
+	desc = "A heavy collar of bronze alloy, meant to protect the neck."
+	icon_state = "aasimarneck"
+	item_state = "aasimarneck"
+	armor = list("blunt" = 90, "slash" = 100, "stab" = 80, "piercing" = 80, "fire" = 0, "acid" = 0)
+	max_integrity = 250
+	smeltresult = null // No bronze ingots yet
+
 /obj/item/clothing/neck/roguetown/psicross
 	name = "psycross"
 	desc = "'With every broken bone, I swore I lived!'"

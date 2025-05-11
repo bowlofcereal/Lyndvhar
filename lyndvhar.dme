@@ -1959,6 +1959,7 @@
 #include "code\modules\underworld\underworld.dm"
 #include "code\modules\unit_tests\_unit_tests.dm"
 #include "code\modules\vehicles\_vehicle.dm"
+#include "code/modules/vehicles/boat.dm"
 #include "code\modules\vehicles\ridden.dm"
 #include "code\modules\vehicles\vehicle_actions.dm"
 #include "code\modules\vehicles\vehicle_key.dm"

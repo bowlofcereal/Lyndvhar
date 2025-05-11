@@ -105,7 +105,8 @@
 	blade_dulling = DULLING_BASHCHOP
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = "woodimpact"
-
+	sleepy = 0.35
+	
 /obj/structure/chair/wood/rogue/chair3
 	icon_state = "chair3"
 	icon = 'icons/roguetown/misc/structure.dmi'
@@ -263,7 +264,8 @@
 /obj/structure/bed/rogue
 	icon_state = "bed"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	anchored = TRUE
+	anchored = FALSE
+	drag_slowdown = 3
 	can_buckle = TRUE
 	buckle_lying = 90
 	pixel_y = 5
@@ -329,8 +331,9 @@
 /obj/structure/bed/rogue/inn
 	icon_state = "inn_bed"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	anchored = TRUE
+	anchored = FALSE
 	can_buckle = TRUE
+	drag_slowdown = 3
 	buckle_lying = 90
 	pixel_y = 5
 	sleepy = 3
@@ -339,17 +342,19 @@
 /obj/structure/bed/rogue/inn/wooldouble
 	icon_state = "double_wool"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	anchored = TRUE
+	anchored = FALSE
 	can_buckle = TRUE
 	buckle_lying = 90
 	pixel_y = 0
 	sleepy = 3
+	drag_slowdown = 5
 	debris = list(/obj/item/grown/log/tree/small = 2)
 
 /obj/structure/bed/rogue/inn/double
 	icon_state = "double"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	anchored = TRUE
+	anchored = FALSE
+	drag_slowdown = 5
 	can_buckle = TRUE
 	buckle_lying = 90
 	pixel_y = 0
@@ -380,7 +385,8 @@
 /obj/structure/bed/rogue/inn/hay
 	icon_state = "haybed"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	anchored = TRUE
+	anchored = FALSE
+	drag_slowdown = 2
 	can_buckle = TRUE
 	buckle_lying = 90
 	pixel_y = 5
@@ -390,7 +396,8 @@
 /obj/structure/bed/rogue/inn/wool
 	icon_state = "woolbed"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	anchored = TRUE
+	anchored = FALSE
+	drag_slowdown = 3
 	can_buckle = TRUE
 	buckle_lying = 90
 	pixel_y = 5
@@ -400,7 +407,8 @@
 /obj/structure/bed/rogue/inn/pileofshit
 	icon_state = "shitbed2"
 	icon = 'icons/roguetown/misc/structure.dmi'
-	anchored = TRUE
+	anchored = FALSE
+	drag_slowdown = 1
 	can_buckle = TRUE
 	buckle_lying = 90
 	pixel_y = 5

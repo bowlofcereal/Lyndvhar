@@ -944,3 +944,12 @@
 	verbage_simple = "smooth"
 	verbage = "smooths"
 	craftdiff = 0
+
+
+/datum/crafting_recipe/roguetown/oar 
+	name = "oar"
+	result = /obj/item/oar
+	reqs = list(/obj/item/grown/log/tree/small)
+	verbage_simple = "carve"
+	verbage = "carves"
+	craftdiff = 1

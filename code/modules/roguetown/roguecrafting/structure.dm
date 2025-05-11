@@ -667,3 +667,12 @@
 	verbage = "assembles"
 	skillcraft = /datum/skill/craft/alchemy
 	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/structure/boat
+	name = "boat"
+	result = /obj/vehicle/ridden/boat
+	reqs = list(/obj/item/grown/log/tree/small = 7, /obj/item/rope)
+	verbage_simple = "build"
+	verbage = "build"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 3

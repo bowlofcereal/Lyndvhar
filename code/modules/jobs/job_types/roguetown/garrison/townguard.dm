@@ -11,7 +11,6 @@
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "Responsible for the safety of the port city and the enforcement of the law, you are the vanguard of the city faced with punishing those who defy the Viscount. Though you've many lords to obey, as both the Church and the Marshal have great sway over your life."
 	display_order = JDO_TOWNGUARD
-	whitelist_req = TRUE
 
 	outfit = /datum/outfit/job/roguetown/guardsman
 	advclass_cat_rolls = list(CTAG_WATCH = 20)
@@ -21,7 +20,7 @@
 	max_pq = null
 	round_contrib_points = 2
 
-	cmode_music = 'sound/music/combat_guard.ogg'
+	cmode_music = 'sound/music/combat_guard2.ogg'
 
 /datum/job/roguetown/guardsman/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
@@ -40,7 +39,7 @@
 			S.name = "watchman tabard ([index])"
 
 /datum/outfit/job/roguetown/guardsman
-	pants = /obj/item/clothing/under/roguetown/chainlegs
+	pants = /obj/item/clothing/under/roguetown/trou/leather
 	cloak = /obj/item/clothing/cloak/stabard/guard
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
@@ -85,8 +84,8 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)	//You get medium armor training to go with your armor.
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
-	head = /obj/item/clothing/head/roguetown/helmet
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
+	head = pickweight(list(/obj/item/clothing/head/roguetown/helmet = 3, /obj/item/clothing/head/roguetown/helmet/kettle = 7))
+	armor = pickweight(list(/obj/item/clothing/suit/roguetown/armor/plate/half = 3, /obj/item/clothing/suit/roguetown/armor/plate/half/iron = 7))
 	beltr = /obj/item/rogueweapon/mace/cudgel
 	backl = /obj/item/rogueweapon/shield/buckler		//Maybe give a buckler? Gave wood because 40 coverage is better than 10 but dunno.
 	backr = /obj/item/storage/backpack/rogue/satchel/black
@@ -108,10 +107,9 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 	H.mind.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)		//Why master? Because all it does is effect draw time, which is strength x skill / 1.2. (Bow is just skill / 1.0). You get poor bonus strength, so you get skill to offset.
 	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/maces, 	1, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)		//Maybe take away? Leaving for now just as a fall-back for non-lethal ability.
 	H.mind.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
@@ -139,6 +137,55 @@ Archer is basically a 'bounty-catcher' in function, less specialized at close-qu
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel = 1, /obj/item/rope/chain = 1)
 	H.verbs |= /mob/proc/haltyell
+
+/datum/advclass/watchman/pikeman
+	name = "Watch Pikeman"
+	tutorial = "You are a Pikeman of the Town Watch. Given a polearm and some armor, you are expected to defend this town from all threats."
+	outfit = /datum/outfit/job/roguetown/guardsman/pikeman
+
+	category_tags = list(CTAG_WATCH)
+
+/datum/outfit/job/roguetown/guardsman/pikeman/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.mind.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/misc/swimming, 1, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	H.change_stat("strength", 1)
+	H.change_stat("endurance", 2)
+
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+
+	head = /obj/item/clothing/head/roguetown/helmet/kettle
+	armor = pickweight(list(/obj/item/clothing/suit/roguetown/armor/leather/heavy = 4, /obj/item/clothing/suit/roguetown/armor/chainmail/iron = 3, /obj/item/clothing/suit/roguetown/armor/plate/half/iron = 2))
+	backr = /obj/item/storage/backpack/rogue/satchel
+	beltl = /obj/item/storage/keyring/guardcastle
+	beltr = /obj/item/rogueweapon/sword/iron/short
+	belt = /obj/item/storage/belt/rogue/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1, /obj/item/rope/chain = 1)
+	var/weapontype = pickweight(list("Spear" = 5, "Bardiche" = 3, "Lucerne" = 2)) //pooors
+	switch(weapontype)
+		if("Spear")
+			r_hand = /obj/item/rogueweapon/spear
+			backl = /obj/item/gwstrap
+		if("Bardiche")
+			r_hand = /obj/item/rogueweapon/halberd/bardiche
+			backl = /obj/item/gwstrap
+		if("Lucerne")
+			backl = /obj/item/gwstrap
+			r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
+   H.verbs |= /mob/proc/haltyell
+
 
 // Added to baliff under assumption townguard.dm will not be enabled.
 // /mob/proc/haltyell()

@@ -70,4 +70,4 @@
 						/obj/item/flashlight/flare/torch = 1,
 						) 
 			H.mind.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-			H.mind.adjust_skillrank(/datum/skill/combat/sword, 1, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)

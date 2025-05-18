@@ -46,11 +46,11 @@
 	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
-		if("Battleaxe & Cudgel") //one weapon to hurt people one weapon to kill people
+		if("Battleaxe & Cudgel") 
 			backl= /obj/item/rogueweapon/stoneaxe/battle
 			beltr = /obj/item/rogueweapon/mace/cudgel
 			H.mind.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-		if("Flail & Shield") //plate users beware, you're in for a scare!
+		if("Flail & Shield") 
 			backl= /obj/item/rogueweapon/shield/wood
 			beltr = /obj/item/rogueweapon/flail
 			H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)

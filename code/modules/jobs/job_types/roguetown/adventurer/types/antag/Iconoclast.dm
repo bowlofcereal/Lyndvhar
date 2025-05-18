@@ -15,13 +15,13 @@
 	H.mind.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/magic/holy, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)  // Unarmed. this is unarmed not wrestling. you can see that right?
+	H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE) 
 	H.mind.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE) 
-	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE) //We are the True Mathlete! HAHA! Get it?
+	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE) 
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shirt = /obj/item/clothing/suit/roguetown/shirt
@@ -37,10 +37,10 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/cuirass
 	beltr = /obj/item/rogueweapon/mace
 	id = /obj/item/mattcoin
-	H.change_stat("strength", 1) // lets TAFF
-	H.change_stat("endurance", 2) // This is our Go Big stat!! WOW! 
+	H.change_stat("strength", 1) 
+	H.change_stat("endurance", 2) 
 	H.change_stat("constitution", 1)
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) // we are going to be the world's first mace based bandit class!! WHEW!! I am so awesome
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) 
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_spells_monk(H)

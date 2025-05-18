@@ -127,6 +127,15 @@
 				return FALSE
 	return TRUE
 
+/proc/get_location_unarmored(mob/victim, location = BODY_ZONE_CHEST, targetAC = 0) //0 checks for Light+, 1 for Medium+, 2 for Heavy.
+	if(iscarbon(victim))
+		var/mob/living/carbon/carbon_victim = victim 
+		for(var/obj/item/clothing/equipped_item in carbon_victim.get_equipped_items(include_pockets = FALSE))
+			if(zone2covered(location, equipped_item.body_parts_covered))
+				if(equipped_item.armor_class > targetAC)
+					return FALSE
+	return TRUE
+
 /proc/zone2covered(location, covered_locations)
 	switch(location)
 		if(BODY_ZONE_HEAD)

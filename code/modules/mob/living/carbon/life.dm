@@ -98,7 +98,7 @@
 						if(fallingas > 15)
 							Sleeping(300)
 				else
-					rogstam_add(sleepy_mod * 10)
+					rogstam_add(sleepy_mod * 20)
 			// Resting on the ground (not sleeping or with eyes closed and about to fall asleep)
 			else if(!(mobility_flags & MOBILITY_STAND))
 				if(eyesclosed)
@@ -121,11 +121,11 @@
 						if(fallingas > 25)
 							Sleeping(300)
 				else
-					rogstam_add(10)
+					rogstam_add(20)
 			else if(fallingas)
 				fallingas = 0
 		else if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !(mobility_flags & MOBILITY_STAND))
-			rogstam_add(5)
+			rogstam_add(10)
 
 		handle_brain_damage()
 
@@ -158,38 +158,48 @@
 	if(HAS_TRAIT(src, TRAIT_NOPAIN))
 		return
 	if(!stat)
-		var/pain_threshold = STAEND * 10
-		if(has_flaw(/datum/charflaw/masochist)) // Masochists handle pain better by about 1 endurance point
-			pain_threshold += 10
 		var/painpercent = get_complex_pain() / pain_threshold
 		painpercent = painpercent * 100
-
 		if(world.time > mob_timers["painstun"])
-			mob_timers["painstun"] = world.time + 100
-			var/probby = 40 - (STAEND * 2)
-			probby = max(probby, 10)
-			if(lying || IsKnockdown())
-				if(prob(3) && (painpercent >= 80) )
+			mob_timers["painstun"] = world.time + 10 SECONDS
+			switch(painpercent)
+				if(-INFINITY to 99)
+					return
+				if(100 to 149)
+					Immobilize(5)
+					set_blurriness(5)
+					rogfat_add(10)
+					visible_message(span_warning("[src] winces in pain!"))
+					mob_timers["painstun"] = world.time + 15 SECONDS
+					add_stress(/datum/stressevent/painmax)
+				if(150 to 199)
+					Immobilize(10)
+					set_blurriness(8)
+					rogfat_add(20)
+					visible_message(span_warning("<b>[src] winces in pain!</b>"))
 					emote("painmoan")
-			else
-				if(painpercent >= 100)
-					if(prob(probby) && !HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+					mob_timers["painstun"] = world.time + 20 SECONDS
+					add_stress(/datum/stressevent/painmax)
+				if(200 to INFINITY) //Game over.
+					var/paincritchance = (55 - (STACON + STAEND))
+					if(prob(paincritchance))
 						Immobilize(10)
+						set_blurriness(8)
 						emote("painscream")
 						stuttering += 5
 						addtimer(CALLBACK(src, PROC_REF(Stun), 110), 10)
 						addtimer(CALLBACK(src, PROC_REF(Knockdown), 110), 10)
-						mob_timers["painstun"] = world.time + 160
+						mob_timers["painstun"] = world.time + 25 SECONDS
 					else
+						Immobilize(10)
+						set_blurriness(8)
+						rogfat_add(20)
+						visible_message(span_warning("<b>[src] winces in pain!</b>"))
 						emote("painmoan")
-						stuttering += 5
-				else
-					if(painpercent >= 80)
-						if(probby)
-							emote("painmoan")
-
-		if(painpercent >= 100)
-			add_stress(/datum/stressevent/painmax)
+						mob_timers["painstun"] = world.time + 20 SECONDS
+						add_stress(/datum/stressevent/painmax)
+						if(!(mobility_flags & MOBILITY_STAND))
+							to_chat(src, span_boldwarning("I can't keep going for much longer!"))
 
 /mob/living/carbon/proc/handle_roguebreath()
 	return
@@ -241,7 +251,7 @@
 	for(var/obj/item/bodypart/limb as anything in bodyparts)
 		if(limb.status == BODYPART_ROBOTIC || limb.skeletonized)
 			continue
-		var/bodypart_pain = ((limb.brute_dam + limb.burn_dam) / limb.max_damage) * 100
+		var/bodypart_pain = ((limb.brute_dam + (limb.burn_dam/2)) / limb.max_damage) * 100
 		for(var/datum/wound/wound as anything in limb.wounds)
 			bodypart_pain += wound.woundpain
 		bodypart_pain = min(bodypart_pain, 100) //tops out at 100 per limb

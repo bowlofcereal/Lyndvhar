@@ -186,13 +186,21 @@
 				if(iscarbon(M) && M != user)
 					user.rogfat_add(rand(1,3))
 					var/mob/living/carbon/C = M
-					if(get_location_accessible(C, BODY_ZONE_PRECISE_NECK))
-						if(prob(25))
+					var/chokedamage = clamp(((user.STASTR - C.STACON)*8), user.STASTR, 50)
+					if(get_location_unarmored(C, BODY_ZONE_PRECISE_NECK, 2)) //Heavy neck armor prevents this altogether.
+						if(prob(chokedamage))
 							C.emote("choke")
-						C.adjustOxyLoss(user.STASTR)
-					C.visible_message(span_danger("[user] [pick("chokes", "strangles")] [C]!"), \
-									span_userdanger("[user] [pick("chokes", "strangles")] me!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
-					to_chat(user, span_danger("I [pick("choke", "strangle")] [C]!"))
+						if(C.getOxyLoss() < 120) //This is to stop choking from speedrunning kills now that it can deal more damage.
+							C.adjustOxyLoss(chokedamage)
+						else
+							C.adjustOxyLoss(5)
+						C.visible_message(span_danger("[user] [pick("chokes", "strangles")] [C]!"), \
+										span_userdanger("[user] [pick("chokes", "strangles")] me!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
+						to_chat(user, span_danger("I [pick("choke", "strangle")] [C]!"))
+					else
+						C.visible_message(span_danger("[user] uselessly attemmpts to [pick("choke", "strangle")] [C]!"), \
+										span_userdanger("[user] tries to [pick("choke", "strangle")] me!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
+						to_chat(user, span_danger("I can't [pick("choke", "strangle")] [C] through their neckguard!"))
 		if(/datum/intent/grab/twist)
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M))

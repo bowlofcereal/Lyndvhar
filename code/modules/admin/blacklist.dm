@@ -50,32 +50,6 @@ GLOBAL_PROTECT(nameban)
 
 #undef NAMEBANFILE
 
-
-#define PSYCHOFILE "[global.config.directory]/roguetown/psychokiller.txt"
-
-GLOBAL_LIST(psychokiller)
-GLOBAL_PROTECT(psychokiller)
-
-/proc/load_psychokiller()
-	GLOB.psychokiller = list()
-	for(var/line in world.file2list(PSYCHOFILE))
-		if(!line)
-			continue
-		if(findtextEx(line,"#",1,2))
-			continue
-		GLOB.psychokiller += ckey(line)
-
-	if(!GLOB.psychokiller.len)
-		GLOB.psychokiller = null
-
-/proc/check_psychokiller(ckey)
-	if(!GLOB.psychokiller)
-		return FALSE
-	. = (ckey in GLOB.psychokiller)
-
-#undef PSYCHOFILE
-
-
 #define BYPASSAGEFILE "[global.config.directory]/roguetown/bypassage.txt"
 
 GLOBAL_LIST(bypassage)

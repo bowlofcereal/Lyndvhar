@@ -207,6 +207,7 @@
 	body_parts_covered = NECK|MOUTH|NOSE
 	prevent_crits = list(BCLASS_CUT, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_BITE)
 	blocksound = PLATEHIT
+	armor_class = ARMOR_CLASS_HEAVY //On neck slot, only checked to prevent choke grabs.
 
 /obj/item/clothing/neck/roguetown/gorget
 	name = "gorget"

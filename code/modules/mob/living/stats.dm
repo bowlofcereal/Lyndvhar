@@ -15,6 +15,7 @@
 	var/STAEND = 10
 	var/STASPD = 10
 	var/STALUC = 10
+	var/pain_threshold = 100
 	//buffers, the 'true' amount of each stat
 	var/BUFSTR = 0
 	var/BUFPER = 0
@@ -76,18 +77,11 @@
 				change_stat("perception", -1)
 				change_stat("constitution", -2)
 				change_stat("intelligence", 2)
-		if(key)
-			if(check_blacklist(ckey(key)))
-				change_stat("strength", -5)
-				change_stat("speed", -20)
-				change_stat("endurance", -2)
-				change_stat("constitution", -2)
-				change_stat("intelligence", -20)
-				change_stat("fortune", -20)
-			if(check_psychokiller(ckey(key)))
-				testing("foundpsych")
-				H.eye_color = "ff0000"
-				H.voice_color = "ff0000"
+		if(STAEND > 10)
+			pain_threshold = STAEND * 25
+			if(has_flaw(/datum/charflaw/masochist))
+				pain_threshold += 25
+		
 
 /mob/living/proc/change_stat(stat, amt, index)
 	if(!stat)

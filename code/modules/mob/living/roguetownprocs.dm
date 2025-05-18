@@ -191,6 +191,9 @@
 				else
 					attacker_skill = U.mind.get_skill_level(/datum/skill/combat/unarmed)
 					prob2defend -= (attacker_skill * 20)
+					if(user.STASPD > src.STASPD)
+						prob2defend -= ((user.STASPD - src.STASPD)*10) //In line with D&D, unarmed attacks are finesseable.
+
 
 			if(HAS_TRAIT(src, TRAIT_GUIDANCE))
 				prob2defend += 10
@@ -207,19 +210,19 @@
 					var/mob/living/carbon/human/SH = H
 					var/sentinel = SH.calculate_sentinel_bonus()
 					prob2defend += sentinel
-
-			prob2defend = clamp(prob2defend, 5, 90)
+			if(intenty.unarmed || istype(U, /mob/living/simple_animal))
+				prob2defend = clamp(prob2defend, 5, 95) //Parrying clumsy unarmed attacks is more consistent
+				drained -= 2
+			else
+				prob2defend = clamp(prob2defend, 5, 90)
 
 			//Dual Wielding
 			var/attacker_dualw
-			var/defender_dualw
 			var/extraattroll
-			var/extradefroll
 
 			//Dual Wielder defense disadvantage
 			if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && istype(offhand, mainhand))
-				extradefroll = prob(prob2defend)
-				defender_dualw = TRUE
+				prob2defend -= 20 //Significant flat dodge/parry malus.
 
 			//dual-wielder attack advantage
 			var/obj/item/mainh = user.get_active_held_item()
@@ -231,11 +234,8 @@
 
 			if(src.client?.prefs.showrolls)
 				var/text = "Roll to parry... [prob2defend]%"
-				if((defender_dualw || attacker_dualw))
-					if(defender_dualw && attacker_dualw)
-						text += " Our dual wielding cancels out!"
-					else//If we're defending against or as a dual wielder, we roll disadv. But if we're both dual wielding it cancels out.
-						text += " Twice! Disadvantage!"
+				if(attacker_dualw)
+					text += " Twice! Disadvantage!"
 				to_chat(src, span_info("[text]"))
 			
 			var/attacker_feedback 
@@ -243,17 +243,11 @@
 				attacker_feedback = "Attacking with advantage."
 
 			var/parry_status = FALSE
-			if((defender_dualw && attacker_dualw) || (!defender_dualw && !attacker_dualw)) //They cancel each other out
-				if(attacker_feedback)
-					attacker_feedback += " Cancelled out!"
-				if(prob(prob2defend))
-					parry_status = TRUE
-			else if(attacker_dualw)
-				if(!prob(prob2defend) || !extraattroll)
+			if(prob(prob2defend))
+				parry_status = TRUE
+			if(attacker_dualw)
+				if(!extraattroll)
 					parry_status = FALSE
-			else if(defender_dualw)
-				if(prob(prob2defend) && extradefroll)
-					parry_status = TRUE
 
 			if(attacker_feedback)
 				to_chat(user, span_info("[attacker_feedback]"))
@@ -262,6 +256,10 @@
 				if(intenty.masteritem)
 					if(intenty.masteritem.wbalance < 0 && user.STASTR > src.STASTR) //enemy weapon is heavy, so get a bonus scaling on strdiff
 						drained = drained + ( intenty.masteritem.wbalance * ((user.STASTR - src.STASTR) * -5) )
+				else
+					if(intenty.unarmed)
+						if(user.STASTR > src.STASTR)
+							drained += ((user.STASTR - src.STASTR)*2.5) //Unarmed attacks also cost additional stamina to parry if the user is stronger, by default they cost 2 less to parry.
 			else
 				to_chat(src, span_warning("The enemy defeated my parry!"))
 				if(HAS_TRAIT(src, TRAIT_MAGEARMOR))
@@ -512,28 +510,30 @@
 						prob2defend = prob2defend - (UH.mind.get_skill_level(/datum/skill/combat/unarmed) * 10)
 					if(H.mind)
 						prob2defend = prob2defend + (H.mind.get_skill_level(/datum/skill/combat/unarmed) * 10)
+					if(UH.STASPD > H.STASPD)
+						prob2defend -= ((UH.STASPD - H.STASPD)*10) //In line with D&D, unarmed attacks are finesseable/swift.
 		// dodging while knocked down sucks ass
 		if(!(L.mobility_flags & MOBILITY_STAND))
-			prob2defend *= 0.25
+			prob2defend *= 0.4
 
 		if(HAS_TRAIT(H, TRAIT_SENTINELOFWITS))
 			var/sentinel = H.calculate_sentinel_bonus()
 			prob2defend += sentinel
 
-		prob2defend = clamp(prob2defend, 5, 90)
+		if(UH?.used_intent.unarmed)
+			prob2defend = clamp(prob2defend, 5, 95) //Dodging clumsy unarmed attacks is easier
+		else
+			prob2defend = clamp(prob2defend, 5, 90)
 
 		//------------Duel Wielding Checks------------
 		var/attacker_dualw
-		var/defender_dualw
 		var/extraattroll
-		var/extradefroll
 		var/mainhand = L.get_active_held_item()
 		var/offhand	= L.get_inactive_held_item()
 		//Duel Wielder defense disadvantage
 		if(mainhand && offhand)
 			if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && istype(offhand, mainhand))
-				extradefroll = prob(prob2defend)
-				defender_dualw = TRUE
+				prob2defend -= 20
 
 		//dual-wielder attack advantage
 		var/obj/item/mainh = U.get_active_held_item()
@@ -547,20 +547,16 @@
 
 		if(client?.prefs.showrolls)
 			var/text = "Roll to dodge... [prob2defend]%"
-			if(defender_dualw)
+			if(attacker_dualw)
 				text += " Twice! Disadvantage!"
 			to_chat(src, span_info("[text]"))
 
 		var/dodge_status = FALSE
-		if((defender_dualw && attacker_dualw) || (!defender_dualw && !attacker_dualw)) //They cancel each other out
-			if(prob(prob2defend))
-				dodge_status = TRUE
-		else if(attacker_dualw)
-			if(!prob(prob2defend) || !extraattroll)
+		if(prob(prob2defend))
+			dodge_status = TRUE
+		if(attacker_dualw)
+			if(!extraattroll)
 				dodge_status = FALSE
-		else if(defender_dualw)
-			if(prob(prob2defend) && extradefroll)
-				dodge_status = TRUE
 
 		if(!dodge_status)
 			return FALSE
@@ -568,7 +564,7 @@
 			to_chat(src, span_warning("I'm too tired to dodge!"))
 			return FALSE
 	else //we are a non human
-		prob2defend = clamp(prob2defend, 5, 90)
+		prob2defend = clamp(prob2defend, 5, 95)
 		if(client?.prefs.showrolls)
 			to_chat(src, span_info("Roll to dodge... [prob2defend]%"))
 		if(!prob(prob2defend))
@@ -576,10 +572,10 @@
 	dodgecd = TRUE
 	playsound(src, 'sound/combat/dodge.ogg', 100, FALSE)
 	throw_at(turfy, 1, 2, src, FALSE)
-	if(drained > 0)
+	if(prob2defend < 90)
 		src.visible_message(span_warning("<b>[src]</b> dodges [user]'s attack!"))
 	else
-		src.visible_message(span_warning("<b>[src]</b> easily dodges [user]'s attack!"))
+		src.visible_message(span_warning("<b>[src]</b> easily dodges [user]'s attack!")) //Feedback if the attack is getting easily dodged.
 	dodgecd = FALSE
 //		if(H)
 //			if(H.IsOffBalanced())
@@ -606,6 +602,8 @@
 /mob/proc/get_punch_dmg()
 	return
 
+/mob/proc/get_punch_ap()
+	return
 
 /mob/proc/add_family_hud(antag_hud_type, antag_hud_name)
 	var/datum/atom_hud/antag/hud = GLOB.huds[antag_hud_type]

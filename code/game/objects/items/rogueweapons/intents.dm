@@ -22,6 +22,8 @@
 	var/chargedrain = 0 //how mcuh fatigue is removed every second when at max charge
 	var/releasedrain = 5 //drain when we go off, regardless
 	var/misscost = 0	//extra drain from missing only, ALSO APPLIED IF ENEMY DODGES
+	var/parrycost = 0 //Extra drain applied on defender after parrying this intent.
+	var/dodgecost = 0 //Extra drain applied on defender after dodging this intent.
 	var/tranged = 0
 	var/noaa = FALSE //turns off auto aiming, also turns off the 'swooshes'
 	var/warnie = ""

@@ -115,6 +115,7 @@
 
 	var/used_str = STASTR
 
+	var/obj/G = get_item_by_slot(SLOT_GLOVES)
 	if(domhand)
 		used_str = get_str_arms(used_hand)
 
@@ -124,11 +125,40 @@
 	if(used_str <= 9)
 		damage = max(damage - (damage * ((10 - used_str) * 0.1)), 1)
 
+	if(istype(G, /obj/item/clothing/gloves/roguetown/plate/atgervi))
+		damage = (damage * 1.35)
+	else 
+		if(istype(G, /obj/item/clothing/gloves/roguetown/plate))
+			damage = (damage * 1.20)
+	if(istype(G, /obj/item/clothing/gloves/roguetown/chain))
+		damage = (damage * 1.15)
+	if(istype(G, /obj/item/clothing/gloves/roguetown/leather))
+		damage = (damage * 1.10) 
+
 	if(mind)
 		if(mind.has_antag_datum(/datum/antagonist/werewolf))
 			return 30
 
 	return damage
+
+/mob/living/carbon/human/get_punch_ap()
+	var/armor_penetration = 10
+
+	var/used_str = STASTR
+
+	var/obj/G = get_item_by_slot(SLOT_GLOVES)
+	if(domhand)
+		used_str = get_str_arms(used_hand)
+
+	if(istype(G, /obj/item/clothing/gloves/roguetown/chain))
+		armor_penetration += 5
+	if(istype(G, /obj/item/clothing/gloves/roguetown/plate))
+		armor_penetration += 10
+	
+	if(used_str >= 11)
+		armor_penetration = max(armor_penetration + (armor_penetration * ((used_str - 10) * 0.3)), 1)
+	
+	return armor_penetration
 
 /mob/living/carbon/human/proc/is_noble()
 	var/noble = FALSE

@@ -15,7 +15,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
-	beltr = /obj/item/rogueweapon/sword/rapier
+	beltr = /obj/item/rogueweapon/sword/iron/messer
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
 	backr = /obj/item/storage/backpack/rogue/satchel
@@ -27,10 +27,9 @@
 					/obj/item/bedroll = 1,
 					)
 	H.mind.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	H.mind.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/craft/carpentry, 3, TRUE)
-	H.mind.adjust_skillrank(/datum/skill/labor/lumberjacking, 1, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE) //needed for getting into hideout
@@ -40,10 +39,9 @@
 	H.mind.adjust_skillrank(/datum/skill/misc/alchemy, 3, TRUE)
 	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC)
-	H.change_stat("speed", 1)
 	H.change_stat("intelligence", 2)
-	H.change_stat("perception", 1) //azure peak really outdid themselves with needless buffs
+	H.change_stat("perception", 1)
+	H.change_stat("constitution", -1)
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)
 		H.change_stat("intelligence", 1)

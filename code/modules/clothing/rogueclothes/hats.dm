@@ -2198,3 +2198,16 @@
 	desc = "A winged version of the elven barbute. They have always been known for their vanity."
 	icon_state = "elven_barbute_winged"
 	item_state = "elven_barbute_winged"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zadhelm
+	name = "zad helmet"
+	desc = "A zad-shaped steel bascinet helmet protecting the head and ears."
+	icon_state = "zadhelm"
+	item_state = "zadhelm"
+	emote_environment = 3
+	body_parts_covered = HEAD|HAIR|EARS
+	flags_inv = HIDEEARS|HIDEHAIR
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+	sellprice = 85

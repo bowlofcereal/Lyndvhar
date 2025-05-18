@@ -212,7 +212,7 @@
 	thrown_bclass = BCLASS_CUT
 	dropshrink = 0.75
 	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
+	wdefense = 4
 
 /obj/item/rogueweapon/sword/long/death
 	color = CLOTHING_BLACK
@@ -269,7 +269,7 @@
 	icon_state = "malumflamberge"
 	max_integrity = 300
 	wbalance = 0.5
-	wdefense = 4
+	wdefense = 4.5
 
 /obj/item/rogueweapon/sword/long/zizo
 	name = "darksteel longsword"

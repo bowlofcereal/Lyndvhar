@@ -213,10 +213,12 @@
 		else
 			to_chat(user, span_warning("I struggle with [src]!"))
 		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
-		user.Immobilize(2 SECONDS)
-		user.changeNext_move(2 SECONDS)
-		src.Immobilize(1 SECONDS)
-		src.changeNext_move(1 SECONDS)
+		user.Immobilize(1 SECONDS)
+		user.changeNext_move(1 SECONDS)
+		user.rogfat_add(rand(7,15))
+		src.Immobilize(0.5 SECONDS)
+		src.changeNext_move(0.5 SECONDS)
+		user.rogfat_add(rand(7,15))
 		return
 
 	if(!instant)
@@ -239,7 +241,8 @@
 		add_log = " (pacifist)"
 	send_grabbed_message(user)
 	if(user != src)
-		stop_pulling()
+		if(pulling != user) // If the person we're pulling aggro grabs us don't break the grab
+			stop_pulling()
 		user.set_pull_offsets(src, user.grab_state)
 	log_combat(user, src, "grabbed", addition="aggressive grab[add_log]")
 	return 1

@@ -1359,13 +1359,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return
 	if(user.rogfat >= user.maxrogfat)
 		return FALSE
-	if(!(user.mobility_flags & MOBILITY_STAND))
-		return FALSE
 	var/stander = TRUE
 	if(!(target.mobility_flags & MOBILITY_STAND))
 		stander = FALSE
 	if(!get_dist(user, target))
-		if(!stander && (user.mobility_flags & MOBILITY_STAND))
+		if(!stander)
 			target.lastattacker = user.real_name
 			target.lastattackerckey = user.ckey
 			if(target.mind)
@@ -1400,6 +1398,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		user.do_attack_animation(target, ATTACK_EFFECT_DISARM)
 		playsound(target, 'sound/combat/hits/kick/kick.ogg', 100, TRUE, -1)
+
+		if(target.pulling && target.grab_state < GRAB_AGGRESSIVE)
+			target.stop_pulling()
 
 		var/turf/target_oldturf = target.loc
 		var/shove_dir = get_dir(user.loc, target_oldturf)

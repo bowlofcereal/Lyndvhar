@@ -342,7 +342,7 @@
 			return FALSE
 	return TRUE
 
-/mob/living/start_pulling(atom/movable/AM, state, force = pull_force, supress_message = FALSE, obj/item/item_override)
+/mob/living/start_pulling(atom/movable/AM, state, force = pull_force, supress_message = FALSE, obj/item/item_override, accurate = FALSE)
 	if(!AM || !src)
 		return FALSE
 	if(!(AM.can_be_pulled(src, state, force)))
@@ -395,7 +395,7 @@
 		if(iscarbon(M))
 			var/mob/living/carbon/C = M
 			var/obj/item/grabbing/O = new()
-			var/used_limb = C.find_used_grab_limb(src)
+			var/used_limb = C.find_used_grab_limb(src, accurate)
 			O.name = "[C]'s [parse_zone(used_limb)]"
 			var/obj/item/bodypart/BP = C.get_bodypart(check_zone(used_limb))
 			C.grabbedby += O
@@ -1067,10 +1067,21 @@
 	else if(!cmode && L.cmode)
 		combat_modifier -= 0.3
 
-	resist_chance = clamp((((4 + (((STASTR - L.STASTR)/2) + wrestling_diff)) * 10 + rand(-5, 10)) * combat_modifier), 5, 95)
+	var/obj/item/puller_hand = pulledby.get_active_held_item()
+	if(isitem(puller_hand))
+		if(!istype(puller_hand, /obj/item/grabbing) && puller_hand.wlength > WLENGTH_SHORT)  // so you can't pummel them with a weapon
+			combat_modifier += 0.25
 
-	if(moving_resist && client) //we resisted by trying to move
-		client.move_delay = world.time + 20
+	resist_chance += ((((STASTR - L.STASTR)/2) + wrestling_diff) * 7 + rand(-5, 5))
+	resist_chance *= combat_modifier
+	resist_chance = clamp(resist_chance, 7, 95)
+
+	// if(moving_resist && client) //we resisted by trying to move
+	client?.move_delay = world.time + 20
+	changeNext_move(CLICK_CD_RESIST)
+	rogfat_add(rand(4,9))
+	pulledby.rogfat_add(rand(2,5))
+
 	if(prob(resist_chance))
 		rogfat_add(rand(5,15))
 		visible_message(span_warning("[src] breaks free of [pulledby]'s grip!"), \
@@ -1079,6 +1090,11 @@
 		log_combat(pulledby, src, "broke grab")
 		pulledby.changeNext_move(CLICK_CD_GRABBING)
 		pulledby.stop_pulling()
+		var/wrestling_cooldown_reduction = 0
+		if(pulledby?.mind?.get_skill_level(/datum/skill/combat/wrestling))
+			wrestling_cooldown_reduction = 0.2 SECONDS * pulledby.mind.get_skill_level(/datum/skill/combat/wrestling)
+		TIMER_COOLDOWN_START(src, "broke_free", max(0, 2.5 SECONDS - wrestling_cooldown_reduction))
+		playsound(src.loc, 'sound/combat/grabbreak.ogg', 50, TRUE, -1)
 		return FALSE
 	else
 		rogfat_add(rand(5,15))
@@ -1104,7 +1120,9 @@
 							visible_message(span_warning("[src] struggles to break free from [pulledby]'s grip!"), \
 											span_warning("I struggle against [pulledby]'s grip!"), null, null, pulledby)
 							to_chat(pulledby, span_warning("[src] struggles against my grip!"))
-							return FALSE
+							playsound(src.loc, 'sound/combat/grabstruggle.ogg', 50, TRUE, -1)
+							client?.move_delay = world.time + 20
+							return TRUE
 	return ..()
 
 /mob/living/proc/resist_buckle()

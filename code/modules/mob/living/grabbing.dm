@@ -11,13 +11,14 @@
 	no_effect = TRUE
 	force = 0
 	experimental_inhand = FALSE
-	var/grabbed				//ref to what atom we are grabbing
+	var/atom/grabbed				//ref to what atom we are grabbing
 	var/obj/item/bodypart/limb_grabbed		//ref to actual bodypart being grabbed if we're grabbing a carbo
 	var/sublimb_grabbed		//ref to what precise (sublimb) we are grabbing (if any) (text)
 	var/mob/living/carbon/grabbee
 	var/list/dependents = list()
 	var/handaction
 	var/bleed_suppressing = 0.5 //multiplier for how much we suppress bleeding, can accumulate so two grabs means 25% bleeding
+	var/chokehold = FALSE
 
 /atom/movable //reference to all obj/item/grabbing
 	var/list/grabbedby = list()
@@ -30,11 +31,20 @@
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/item/grabbing/process()
-	valid_check()
+	if(valid_check())
+		if(sublimb_grabbed == BODY_ZONE_PRECISE_NECK && (grabbee && (grabbed.dir == turn(get_dir(grabbed,grabbee), 180))))
+			chokehold = TRUE
+		else
+			chokehold = FALSE
 
 /obj/item/grabbing/proc/valid_check()
-	// We require adjacency to count the grab as valid
-	if(grabbee.Adjacent(grabbed))
+	if(QDELETED(grabbee) || QDELETED(grabbed))
+		grabbee?.stop_pulling(FALSE)
+		qdel(src)
+		return FALSE
+
+	// Other grab requires adjacency and pull status, unless we're grabbing ourselves
+	if(grabbee.Adjacent(grabbed) && (grabbee.pulling == grabbed || grabbee == grabbed))
 		return TRUE
 	grabbee.stop_pulling(FALSE)
 	qdel(src)
@@ -87,10 +97,17 @@
 	if(ismob(grabbed))
 		var/mob/M = grabbed
 		M.grabbedby -= src
-		if (iscarbon(M) && sublimb_grabbed)
+		if(iscarbon(M) && sublimb_grabbed)
 			var/mob/living/carbon/carbonmob = M
 			var/obj/item/bodypart/part = carbonmob.get_bodypart(sublimb_grabbed)
 
+			// Edge case: if a weapon becomes embedded in a mob, our "grab" will be destroyed...
+			// In this case, grabbed will be the mob, and sublimb_grabbed will be the weapon, rather than a bodypart
+			// This means we should skip any further processing for the bodypart
+			if(part)
+				part.grabbedby -= src
+				part = null
+				sublimb_grabbed = null
 			// Edge case: if a weapon becomes embedded in a mob, our "grab" will be destroyed...
 			// In this case, grabbed will be the mob, and sublimb_grabbed will be the weapon, rather than a bodypart
 			// This means we should skip any further processing for the bodypart
@@ -173,6 +190,11 @@
 		combat_modifier += 0.3
 	else if(!user.cmode && M.cmode)
 		combat_modifier -= 0.3
+	if(chokehold)
+		combat_modifier += 0.15
+
+	if(pulledby && pulledby.grab_state >= GRAB_AGGRESSIVE)
+		combat_modifier -= 0.2
 
 	switch(user.used_intent.type)
 		if(/datum/intent/grab/upgrade)
@@ -180,8 +202,12 @@
 				to_chat(user, span_warning("Can't get a grip!"))
 				return FALSE
 			user.rogfat_add(rand(7,15))
-			M.grippedby(user)
+			if(M.grippedby(user)) // grab was strengthened
+				bleed_suppressing = 0.5
 		if(/datum/intent/grab/choke)
+			if(user.buckled)
+				to_chat(user, span_warning("I can't do this while buckled!"))
+				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M) && M != user)
 					user.rogfat_add(rand(1,3))
@@ -202,22 +228,34 @@
 										span_userdanger("[user] tries to [pick("choke", "strangle")] me!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE, user)
 						to_chat(user, span_danger("I can't [pick("choke", "strangle")] [C] through their neckguard!"))
 		if(/datum/intent/grab/twist)
+			if(user.buckled)
+				to_chat(user, span_warning("I can't do this while buckled!"))
+				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M))
 					user.rogfat_add(rand(3,8))
 					twistlimb(user)
 		if(/datum/intent/grab/twistitem)
+			if(user.buckled)
+				to_chat(user, span_warning("I can't do this while buckled!"))
+				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(ismob(M))
 					user.rogfat_add(rand(3,8))
 					twistitemlimb(user)
 		if(/datum/intent/grab/remove)
+			if(user.buckled)
+				to_chat(user, span_warning("I can't do this while buckled!"))
+				return FALSE
 			user.rogfat_add(rand(3,13))
 			if(isitem(sublimb_grabbed))
 				removeembeddeditem(user)
 			else
 				user.stop_pulling()
 		if(/datum/intent/grab/shove)
+			if(user.buckled)
+				to_chat(user, span_warning("I can't do this while buckled!"))
+				return FALSE
 			if(!(user.mobility_flags & MOBILITY_STAND))
 				to_chat(user, span_warning("I must stand.."))
 				return
@@ -236,9 +274,86 @@
 					M.visible_message(span_danger("[user] shoves [M] to the ground!"), \
 									span_userdanger("[user] shoves me to the ground!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
 					M.Knockdown(max(10 + (skill_diff * 2), 1))
+					M.drop_all_held_items()
 				else
 					M.visible_message(span_warning("[user] tries to shove [M]!"), \
 									span_danger("[user] tries to shove me!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
+					user.dropItemToGround(src, force = TRUE, silent = TRUE)
+					user.start_pulling(M, supress_message = TRUE, accurate = TRUE)
+				user.changeNext_move(CLICK_CD_GRABBING)
+
+		if(/datum/intent/grab/disarm)
+			if(user.buckled)
+				to_chat(user, span_warning("I can't do this while buckled!"))
+				return FALSE
+			var/obj/item/I
+			if(sublimb_grabbed == BODY_ZONE_PRECISE_L_HAND && M.active_hand_index == 1)
+				I = M.get_active_held_item()
+			else
+				if(sublimb_grabbed == BODY_ZONE_PRECISE_R_HAND && M.active_hand_index == 2)
+					I = M.get_active_held_item()
+				else
+					I = M.get_inactive_held_item()
+			user.rogfat_add(rand(3,8))
+			var/probby = clamp((((3 + (((user.STASTR - M.STACON)/4) + skill_diff)) * 10) * combat_modifier), 5, 95)
+			if(I)
+				if(M.mind)
+					if(I.associated_skill)
+						probby -= M.mind.get_skill_level(I.associated_skill) * 5
+				if(I.wielded)
+					probby -= 20
+				if(prob(probby))
+					M.dropItemToGround(I, force = FALSE, silent = FALSE)
+					user.dropItemToGround(src, force = TRUE, silent = TRUE)
+					if(prob(probby))
+						if(!QDELETED(I))
+							user.put_in_active_hand(I)
+							M.visible_message(span_danger("[user] takes [I] from [M]'s hand!"), \
+										span_userdanger("[user] takes [I] from my hand!"), span_hear("I hear aggressive shuffling!"), COMBAT_MESSAGE_RANGE)
+							playsound(src.loc, 'sound/combat/weaponr1.ogg', 100, FALSE, -1) //sound queue to let them know that they got disarmed
+						user.changeNext_move(CLICK_CD_MELEE)//avoids instantly attacking with the new weapon
+					else
+						M.changeNext_move(6)//slight delay to pick up the weapon
+				else
+					user.Immobilize(10)
+					M.Immobilize(6)
+					M.visible_message(span_warning("[user.name] struggles to disarm [M.name]!"), COMBAT_MESSAGE_RANGE)
+					playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+					user.dropItemToGround(src, force = TRUE, silent = TRUE)
+					user.start_pulling(M, supress_message = TRUE, accurate = TRUE)
+					user.changeNext_move(CLICK_CD_GRABBING)
+			else
+				to_chat(user, span_warning("They aren't holding anything in that hand!"))
+				return
+		if(/datum/intent/grab/armdrag)
+			if(user.buckled)
+				to_chat(user, span_warning("I can't do this while buckled!"))
+				return FALSE
+			var/obj/item/I
+			if(ispath(limb_grabbed.type, /obj/item/bodypart/l_arm))
+				I = M.get_item_for_held_index(1)
+			else
+				I = M.get_item_for_held_index(2)
+			user.rogfat_add(rand(3,8))
+			var/probby = clamp((((3 + (((user.STASTR - M.STACON)/4) + skill_diff)) * 10) * combat_modifier), 5, 95)
+			if(I)
+				if(prob(probby))
+					M.dropItemToGround(I, force = FALSE, silent = FALSE)
+					M.visible_message(span_danger("[user] disarms [M] of [I]!"), \
+							span_userdanger("[user] disarms me of [I]!"), span_hear("I hear aggressive shuffling!"), COMBAT_MESSAGE_RANGE)
+					M.changeNext_move(6)//slight delay to pick up the weapon
+					user.changeNext_move(6)
+				else
+					user.Immobilize(10)
+					M.Immobilize(6)
+					M.visible_message(span_warning("[user.name] struggles to disarm [M.name]!"), COMBAT_MESSAGE_RANGE)
+					playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+					user.dropItemToGround(src, force = TRUE, silent = TRUE)
+					user.start_pulling(M, supress_message = TRUE, accurate = TRUE)
+					user.changeNext_move(CLICK_CD_GRABBING)
+			else
+				to_chat(user, span_warning("They aren't holding anything in that hand!"))
+				return
 
 /obj/item/grabbing/proc/twistlimb(mob/living/user) //implies limb_grabbed and sublimb are things
 	var/mob/living/carbon/C = grabbed
@@ -407,6 +522,11 @@
 	desc = ""
 	icon_state = "inchoke"
 
+/datum/intent/grab/hostage
+	name = "hostage"
+	desc = ""
+	icon_state = "inhostage"
+
 /datum/intent/grab/shove
 	name = "shove"
 	desc = ""
@@ -422,6 +542,15 @@
 	desc = ""
 	icon_state = "intake"
 
+/datum/intent/grab/disarm
+	name = "disarm"
+	desc = ""
+	icon_state = "intake"
+
+/datum/intent/grab/armdrag
+	name = "arm disarm"
+	desc = ""
+	icon_state = "intake"
 
 /obj/item/grabbing/bite
 	name = "bite"

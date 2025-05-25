@@ -229,10 +229,10 @@
 			to_chat(src, span_warning("I'm restrained! I can't move!"))
 			return TRUE
 		else
-//			return mob.resist_grab(1)
-			move_delay = world.time + 10
-			to_chat(src, span_warning("I can't move!"))
-			return TRUE
+			return mob.resist_grab(TRUE)
+			// move_delay = world.time + 10
+			// to_chat(src, "<span class='warning'>I can't move!</span>")
+			// return TRUE
 
 /**
   * Allows mobs to ignore density and phase through objects
